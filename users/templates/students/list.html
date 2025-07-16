@@ -1,0 +1,58 @@
+{% extends 'base.html' %} 
+
+{% block title %} 
+  Student 
+{% endblock title %} 
+
+{%block content %}
+
+  <div class="d-flex align-items-center">
+    <div class="flex-grow-1 fw-bold fs-2 mb-4">Student List</div>
+    <a href="{% url 'users:student_create' %}" class="btn btn-primary">Add student</a>
+  </div>
+
+  <div class="overflow-auto">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col"></th>
+          <th scope="col">Name</th>
+          <th scope="col">Age</th>
+          <th scope="col">Gender</th>
+          <th scope="col">Email</th>
+          <th scope="col">Phone</th>
+          <th scope="col">Address</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for student in students %}
+        <tr>
+          <th scope="row">
+            <img class="rounded-circle border" style="width: 30px;" src="/media/media/student-profile.jpg" alt="profile">
+          </th>
+          <td>{{student.name}}</td>
+          <td>{{student.age}}</td>
+          <td>{{student.gender}}</td>
+          <td>{{student.email}}</td>
+          <td>{{student.phone}}</td>
+          <td>{{student.address}}</td>
+          <td>
+            <a
+              href="{% url 'users:student_update' student.id %}"
+              class="btn btn-outline-primary btn-sm"
+              >Update</a
+            >
+            <a
+              href="{% url 'users:student_delete' student.id %}"
+              class="btn btn-outline-danger btn-sm"
+              >Delete</a
+            >
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+{% endblock content %}

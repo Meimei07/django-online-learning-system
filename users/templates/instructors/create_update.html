@@ -1,0 +1,17 @@
+{% extends 'base.html' %} 
+
+{% block title %} 
+  {% if form.instance.pk %} 
+    Update 
+  {%else %} 
+    Create 
+  {% endif %} 
+  
+  Instructor 
+{% endblock title %} 
+
+{% block content %}
+
+  {% include 'form.html' with Model='Instructor' the_url='users:instructor_list' %}
+
+{% endblock content %}

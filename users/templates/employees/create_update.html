@@ -1,0 +1,17 @@
+{% extends 'base.html' %} 
+
+{% block title %} 
+  {% if form.instance.pk %} 
+    Update 
+  {%else %} 
+    Create 
+  {% endif %} 
+  
+  Employee 
+{% endblock title %} 
+
+{% block content %}
+
+  {% include 'form.html' with Model='Employee' the_url='users:employee_list' %}
+
+{% endblock content %}

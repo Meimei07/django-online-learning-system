@@ -1,0 +1,58 @@
+{% extends 'base.html' %} 
+
+{% block title %} 
+  Instructor 
+{% endblock title %} 
+
+{%block content %}
+
+  <div class="d-flex align-items-center">
+    <div class="flex-grow-1 fw-bold fs-2 mb-4">Instructor List</div>
+    <a href="{% url 'users:instructor_create' %}" class="btn btn-primary">Add instructor</a>
+  </div>
+
+  <div class="overflow-auto">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col"></th>
+          <th scope="col">Name</th>
+          <th scope="col">Age</th>
+          <th scope="col">Email</th>
+          <th scope="col">Phone</th>
+          <th scope="col">Address</th>
+          <th scope="col">Salary</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for instructor in instructors %}
+        <tr>
+          <th scope="row">
+            <img class="rounded-circle border" style="width: 30px;" src="/media/media/instructor-profile.jpg" alt="profile">
+          </th>
+          <td>{{instructor.name}}</td>
+          <td>{{instructor.age}}</td>
+          <td>{{instructor.email}}</td>
+          <td>{{instructor.phone}}</td>
+          <td>{{instructor.address}}</td>
+          <td>${{instructor.salary}}</td>
+          <td>
+            <a
+              href="{% url 'users:instructor_update' instructor.id %}"
+              class="btn btn-outline-primary btn-sm"
+              >Update</a
+            >
+            <a
+              href="{% url 'users:instructor_delete' instructor.id %}"
+              class="btn btn-outline-danger btn-sm"
+              >Delete</a
+            >
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+{% endblock content %}
