@@ -1,0 +1,18 @@
+<div class="fw-semibold fs-4 text-center">{{Model}} Form</div>
+
+<form method="post" {{enctype}}>
+  {% csrf_token %} {{form.as_p}}
+
+  <div class="d-flex justify-content-end gap-2">
+    <button type="submit" class="btn btn-outline-primary">Save</button>
+    <a href="
+      {% if id %}
+        {% url the_url id %}
+      {% else %}
+        {% url the_url %}
+      {% endif %}
+      " class="btn btn-outline-secondary"
+      >Cancel</a
+    >
+  </div>
+</form>

@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XtraReportsLayoutSerializer SerializerVersion="24.2.8.0" Ref="1" ControlType="DevExpress.XtraReports.UI.XtraReport, DevExpress.XtraReports.v24.2, Version=24.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" Name="Report1" PageWidth="850" PageHeight="1100" Version="24.2" DataMember="PRODUCTSALES" DataSource="#Ref-0" Font="Arial, 9.75pt">
+  <CalculatedFields>
+    <Item1 Ref="2" Name="Total" FieldType="Decimal" Expression="[QUANTITY] * [UNITPRICE]" DataMember="PRODUCTSALES" />
+  </CalculatedFields>
+  <Bands>
+    <Item1 Ref="3" ControlType="TopMarginBand" Name="TopMargin" />
+    <Item2 Ref="4" ControlType="DetailBand" Name="Detail">
+      <Controls>
+        <Item1 Ref="5" ControlType="XRTable" Name="table2" TextAlignment="MiddleCenter" SizeF="650,25" LocationFloat="0,0" Padding="2,2,0,0,100">
+          <Rows>
+            <Item1 Ref="6" ControlType="XRTableRow" Name="tableRow2" Weight="1">
+              <Cells>
+                <Item1 Ref="7" ControlType="XRTableCell" Name="tableCell7" Weight="1.3333332806300635" Multiline="true">
+                  <ExpressionBindings>
+                    <Item1 Ref="8" EventName="BeforePrint" PropertyName="Text" Expression="[PRODUCTCODE]" />
+                  </ExpressionBindings>
+                </Item1>
+                <Item2 Ref="9" ControlType="XRTableCell" Name="tableCell8" Weight="1.3333332806300635">
+                  <ExpressionBindings>
+                    <Item1 Ref="10" EventName="BeforePrint" PropertyName="Text" Expression="[PRODUCTNAME]" />
+                  </ExpressionBindings>
+                </Item2>
+                <Item3 Ref="11" ControlType="XRTableCell" Name="tableCell9" Weight="0.8750002169176067">
+                  <ExpressionBindings>
+                    <Item1 Ref="12" EventName="BeforePrint" PropertyName="Text" Expression="[QUANTITY]" />
+                  </ExpressionBindings>
+                </Item3>
+                <Item4 Ref="13" ControlType="XRTableCell" Name="tableCell10" Weight="0.944444450330653" Multiline="true">
+                  <ExpressionBindings>
+                    <Item1 Ref="14" EventName="BeforePrint" PropertyName="Text" Expression="[UNITPRICE]" />
+                  </ExpressionBindings>
+                </Item4>
+                <Item5 Ref="15" ControlType="XRTableCell" Name="tableCell11" Weight="0.9930555966786045" Multiline="true">
+                  <ExpressionBindings>
+                    <Item1 Ref="16" EventName="BeforePrint" PropertyName="Text" Expression="[Total]" />
+                  </ExpressionBindings>
+                </Item5>
+                <Item6 Ref="17" ControlType="XRTableCell" Name="tableCell12" Weight="1.1874991210195431" Multiline="true">
+                  <ExpressionBindings>
+                    <Item1 Ref="18" EventName="BeforePrint" PropertyName="Text" Expression="[SALEDATE]" />
+                  </ExpressionBindings>
+                </Item6>
+              </Cells>
+            </Item1>
+          </Rows>
+          <StylePriority Ref="19" UsePadding="false" UseTextAlignment="false" />
+        </Item1>
+      </Controls>
+    </Item2>
+    <Item3 Ref="20" ControlType="BottomMarginBand" Name="BottomMargin" />
+    <Item4 Ref="21" ControlType="PageHeaderBand" Name="PageHeader">
+      <Controls>
+        <Item1 Ref="22" ControlType="XRTable" Name="table1" TextAlignment="MiddleCenter" SizeF="650,25" LocationFloat="0,75" Font="Arial, 11.75pt" Padding="2,2,0,0,100">
+          <Rows>
+            <Item1 Ref="23" ControlType="XRTableRow" Name="tableRow1" Weight="1">
+              <Cells>
+                <Item1 Ref="24" ControlType="XRTableCell" Name="tableCell1" Weight="1.1666666412353515" Multiline="true" Text="Product Code" />
+                <Item2 Ref="25" ControlType="XRTableCell" Name="tableCell2" Weight="1.333333435058594" Multiline="true" Text="Product Name" />
+                <Item3 Ref="26" ControlType="XRTableCell" Name="tableCell3" Weight="0.8750000000000001" Multiline="true" Text="Quantity" />
+                <Item4 Ref="27" ControlType="XRTableCell" Name="tableCell4" Weight="0.9444439697265624" Multiline="true" Text="Unit Price" />
+                <Item5 Ref="28" ControlType="XRTableCell" Name="tableCell5" Weight="0.9930560302734375" Multiline="true" Text="Total" />
+                <Item6 Ref="29" ControlType="XRTableCell" Name="tableCell6" Weight="1.1874999237060546" Multiline="true" Text="Sale Date" />
+              </Cells>
+            </Item1>
+          </Rows>
+          <StylePriority Ref="30" UseFont="false" UsePadding="false" UseTextAlignment="false" />
+        </Item1>
+        <Item2 Ref="31" ControlType="XRLabel" Name="label1" Multiline="true" Text="PRODUCT SALES" TextAlignment="MiddleLeft" SizeF="216.66666,36.888885" LocationFloat="215.27777,9.999996" Font="Arial, 18pt" Padding="2,2,0,0,100">
+          <StylePriority Ref="32" UseFont="false" UseTextAlignment="false" />
+        </Item2>
+      </Controls>
+    </Item4>
+  </Bands>
+  <ComponentStorage>
+    <Item1 Ref="0" ObjectType="DevExpress.DataAccess.Sql.SqlDataSource,DevExpress.DataAccess.v24.2" Name="sqlDataSource1" Base64="PFNxbERhdGFTb3VyY2UgTmFtZT0ic3FsRGF0YVNvdXJjZTEiPjxDb25uZWN0aW9uIE5hbWU9ImxvY2FsaG9zdF9TYWxlRGJfQ29ubmVjdGlvbiIgUHJvdmlkZXJLZXk9Ik1TU3FsU2VydmVyIj48UGFyYW1ldGVycz48UGFyYW1ldGVyIE5hbWU9InNlcnZlciIgVmFsdWU9IkRFU0tUT1AtOFBSSkNNVVxTVEVQREIiIC8+PFBhcmFtZXRlciBOYW1lPSJkYXRhYmFzZSIgVmFsdWU9IlNhbGVEYiIgLz48UGFyYW1ldGVyIE5hbWU9InVzZUludGVncmF0ZWRTZWN1cml0eSIgVmFsdWU9IkZhbHNlIiAvPjxQYXJhbWV0ZXIgTmFtZT0icmVhZCBvbmx5IiBWYWx1ZT0iMSIgLz48UGFyYW1ldGVyIE5hbWU9ImdlbmVyYXRlQ29ubmVjdGlvbkhlbHBlciIgVmFsdWU9ImZhbHNlIiAvPjxQYXJhbWV0ZXIgTmFtZT0iU3FsU2VydmVyRW5jcnlwdCIgVmFsdWU9ImZhbHNlIiAvPjxQYXJhbWV0ZXIgTmFtZT0iU3FsU2VydmVyVHJ1c3RTZXJ2ZXJDZXJ0aWZpY2F0ZSIgVmFsdWU9InRydWUiIC8+PC9QYXJhbWV0ZXJzPjwvQ29ubmVjdGlvbj48UXVlcnkgVHlwZT0iU2VsZWN0UXVlcnkiIE5hbWU9IlBST0RVQ1RTQUxFUyI+PFRhYmxlcz48VGFibGUgTmFtZT0iUFJPRFVDVFNBTEVTIiAvPjwvVGFibGVzPjxDb2x1bW5zPjxDb2x1bW4gVGFibGU9IlBST0RVQ1RTQUxFUyIgTmFtZT0iUFJPRFVDVENPREUiIC8+PENvbHVtbiBUYWJsZT0iUFJPRFVDVFNBTEVTIiBOYW1lPSJQUk9EVUNUTkFNRSIgLz48Q29sdW1uIFRhYmxlPSJQUk9EVUNUU0FMRVMiIE5hbWU9IlFVQU5USVRZIiAvPjxDb2x1bW4gVGFibGU9IlBST0RVQ1RTQUxFUyIgTmFtZT0iVU5JVFBSSUNFIiAvPjxDb2x1bW4gVGFibGU9IlBST0RVQ1RTQUxFUyIgTmFtZT0iU0FMRURBVEUiIC8+PC9Db2x1bW5zPjwvUXVlcnk+PFJlc3VsdFNjaGVtYT48RGF0YVNldCBOYW1lPSJzcWxEYXRhU291cmNlMSI+PFZpZXcgTmFtZT0iUFJPRFVDVFNBTEVTIj48RmllbGQgTmFtZT0iUFJPRFVDVENPREUiIFR5cGU9IlN0cmluZyIgLz48RmllbGQgTmFtZT0iUFJPRFVDVE5BTUUiIFR5cGU9IlN0cmluZyIgLz48RmllbGQgTmFtZT0iUVVBTlRJVFkiIFR5cGU9IkludDMyIiAvPjxGaWVsZCBOYW1lPSJVTklUUFJJQ0UiIFR5cGU9IkRlY2ltYWwiIC8+PEZpZWxkIE5hbWU9IlNBTEVEQVRFIiBUeXBlPSJEYXRlT25seSIgLz48L1ZpZXc+PC9EYXRhU2V0PjwvUmVzdWx0U2NoZW1hPjxDb25uZWN0aW9uT3B0aW9ucyBDbG9zZUNvbm5lY3Rpb249InRydWUiIC8+PC9TcWxEYXRhU291cmNlPg==" />
+  </ComponentStorage>
+</XtraReportsLayoutSerializer>

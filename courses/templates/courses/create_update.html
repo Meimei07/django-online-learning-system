@@ -1,0 +1,26 @@
+{% extends 'base.html' %} 
+
+{% block title %} 
+  {% if form.instance.pk %} 
+    Update 
+  {%else %} 
+    Create 
+  {% endif %} 
+  
+  Course 
+{% endblock title %} 
+
+{% block content %}
+
+  
+  {% if form.instance.pk %}
+
+    {% include 'form.html' with Model='Course' the_url='courses:course_detail' id=course.id enctype='enctype="multipart/form-data"' %}
+    
+  {% else %}
+    
+    {% include 'form.html' with Model='Course' the_url='courses:course_list' enctype='enctype="multipart/form-data"' %}
+    
+  {% endif %} 
+
+{% endblock content %}

@@ -1,0 +1,41 @@
+{% extends 'base.html' %} 
+
+{% block title %} 
+  Delete Course 
+{% endblock title %}
+
+
+{% block content %}
+
+  <div class="row">
+    <div class="col-lg-9 mx-auto rounded border p-2">
+      <h2 class="text-center mb-3">Delete Course</h2>
+
+      <form method="post">
+        {% csrf_token %}
+        <h3>Are you sure you want to delete this course?</h3>
+
+        <div>
+          <div class="mb-1"><strong>Name:</strong> {{course.name}}</div>
+          <div class="mb-1"><strong>Category:</strong> {{course.category.name}}</div>
+          <div class="mb-1"><strong>Instructor:</strong> {{course.instructor.name}}</div>
+          <div class="mb-1"><strong>Price:</strong> ${{course.price}}</div>
+          <div class="mb-1"><strong>Description:</strong> {{course.description}}</div>
+          <div class="mb-1"><strong>Published Date:</strong> {{course.published_date}}</div>
+        </div>
+
+        <div class="d-flex justify-content-end">
+          <button type="submit" class="btn btn-primary me-2 btn-sm">
+            Confirm
+          </button>
+          <a
+            href="{% url 'courses:course_detail' course.id %}"
+            class="btn btn-outline-secondary btn-sm"
+            >Back</a
+          >
+        </div>
+      </form>
+    </div>
+  </div>
+
+{% endblock content %}

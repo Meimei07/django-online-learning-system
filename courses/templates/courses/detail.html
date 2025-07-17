@@ -1,0 +1,212 @@
+{% extends 'base.html' %} 
+
+{% block title %} Course Detail {% endblock title %}
+
+{% block content %}
+
+<div class="px-4">
+  <a href="{% url 'courses:course_list' %}" style="cursor: pointer; color: black;">
+    <i class="bi bi-arrow-left"></i>
+  </a>
+
+  {% comment %} top {% endcomment %}
+  <div class="top">
+    <div class="flex-grow-1">
+      {% comment %} Instructor info {% endcomment %}
+      <div class="d-flex gap-2 align-items-center">
+        <img
+          src="/media/media/instructor-profile.jpg"
+          class="rounded-circle border"
+          style="width: 30px"
+          alt="profile"
+        />
+        <div>{{course.instructor.name}}</div>
+
+        <div class="ps-5 text-body-tertiary">
+          Published: {{course.published_date}}
+        </div>
+      </div>
+
+      {% comment %} Title {% endcomment %}
+      <div class="title fw-semibold">{{course.name}}</div>
+
+      <div class="d-flex gap-3">
+        {% comment %} Category {% endcomment %}
+        <div class="d-flex align-items-center gap-1">
+          <i class="bi bi-collection"></i>
+          <div class="category">{{course.category.name}}</div>
+        </div>
+
+        {% comment %} Total duration {% endcomment %}
+        <div class="d-flex align-items-center gap-1">
+          <i class="bi bi-alarm pb-1"></i>
+          <div class="total-duration">4hr 12 min</div>
+        </div>
+
+        {% comment %} Total lessons {% endcomment %}
+        <div class="d-flex align-items-center gap-1">
+          <i class="bi bi-journals pb-1"></i>
+          <div class="total-lessons">16 lessons</div>
+        </div>
+
+        {% comment %} Price {% endcomment %}
+        <div class="d-flex align-items-center gap-1">
+          <i class="bi bi-cash-coin"></i>
+          <div class="price">${{course.price}}</div>
+        </div>
+      </div>
+
+      {% comment %} Tags {% endcomment %}
+      <div>
+        {% comment %} All tags {% endcomment %}
+        
+        {% for course_tag in course.tags.all %}
+          <div class="tag">
+            <span>{{course_tag.tag.name}}</span>
+            <form method="post" 
+                  action="{% url 'courses:course_tag_delete' course_tag.id %}" class="d-inline p-0">
+              {% csrf_token %}
+              <button type="submit" class="border-0 bg-transparent p-0"><i class="bi bi-x-lg"></i></button>
+            </form>
+          </div>
+        {% endfor %}
+          
+
+        {% comment %} <div
+          class="border rounded-2 d-inline"
+          style="
+            font-size: 12px;
+            background-color: ghostwhite;
+            padding: 2px 7px;
+          "
+        >
+          Frontend
+        </div>
+        <div
+          class="border rounded-2 d-inline"
+          style="
+            font-size: 12px;
+            background-color: ghostwhite;
+            padding: 2px 7px;
+          "
+        >
+          Javascript
+        </div> {% endcomment %}
+
+        {% comment %} Add tag form {% endcomment %}
+        <form method="post" class="form-container">
+          {% csrf_token %} 
+          {{form.tag}}
+
+          <!-- <select style="font-size: 12px; padding: 2px 7px; width: auto; height: auto;">
+              <option>Select tag</option>
+              <option>Frontend</option>
+              <option>Backend</option>
+              <option>Python</option>
+              <option>Javascript</option>
+              <option>C#</option>
+            </select>  -->
+
+          <button type="submit" name="add-tag" class="border-0 bg-transparent p-0">
+            <i class="bi bi-plus-circle"></i>
+          </button>
+        </form>
+      </div>
+    </div>
+
+    {% comment %} Enroll student, update/delete course {% endcomment %}
+    <div class="btn-container">
+      <a class="btn btn-outline-success btn-sm">Enroll</a>
+      <a
+        href="{% url 'courses:course_update' course.id %}"
+        class="btn btn-outline-primary btn-sm"
+        >Update</a
+      >
+      <a
+        href="{% url 'courses:course_delete' course.id %}"
+        class="btn btn-outline-danger btn-sm"
+        >Delete</a
+      >
+    </div>
+  </div>
+
+  <hr />
+
+  {% comment %} bottom {% endcomment %}
+  <div class="bottom" style="gap: 40px">
+    {% comment %} left {% endcomment %}
+    <div style="flex: 1.5">
+      <a href="{% url 'courses:lesson_create' course.id %}" class="btn btn-outline-info btn-sm mb-2" style="font-size: 12px"
+        >Add Lesson</a
+      >
+
+      <div>
+        
+        {% for lesson in course.lessons.all %}
+          <div class="lesson-container">
+            <div>{{lesson.order}}</div>
+
+            <div>
+              <div>{{lesson.name}}</div>
+              <div class="duration">
+                <i class="bi bi-camera-video pb-1"></i>
+                {{lesson.duration}}
+              </div>
+            </div>
+
+            <div>
+              <div class="file">
+                <i class="bi bi-filetype-doc"></i>
+                <a href="{{lesson.resource_file.url}}">{{ lesson.resource_file.name|slice:"6:" }}</a>
+              </div>
+
+              <div class="video_url">
+                <i class="bi bi-play-circle"></i>
+                <a href="{{lesson.video_url}}">{{lesson.name}}</a>
+              </div>
+            </div>
+
+            <div class="px-2">
+              <a href="{% url 'courses:lesson_update' lesson.id %}" class="btn-update"><i class="bi bi-pencil-square"></i></a>
+              <a href="{% url 'courses:lesson_delete' lesson.id %}" class="btn-delete"><i class="bi bi-x-square"></i></a>
+            </div>
+            
+          </div>
+        {% endfor %}
+          
+      </div>
+
+    </div>
+
+    {% comment %} right {% endcomment %}
+    <div style="flex: 1">
+      <div
+        class="border border-dark px-2 py-1 d-inline rounded-1"
+        style="font-size: 12px"
+      >
+        Introduction
+      </div>
+
+      {% if course.image %}
+      <img
+        src="{{course.image.url}}"
+        class="rounded-1 mt-2"
+        style="width: 100%; aspect-ratio: 2; object-fit: cover"
+        alt="{{course.name}}"
+      />
+      {% else %}
+      <img
+        src="/media/media/e-learning.png"
+        class="rounded-1 mt-2"
+        style="width: 100%; aspect-ratio: 2; object-fit: cover"
+        alt="default"
+      />
+      {% endif %}
+
+      <div class="fw-semibold py-2">Description</div>
+      <div class="lh-sm" style="font-size: 12px">{{course.description}}</div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

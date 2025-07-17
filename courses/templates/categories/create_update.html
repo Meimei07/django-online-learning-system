@@ -1,0 +1,17 @@
+{% extends 'base.html' %} 
+
+{% block title %} 
+  {% if form.instance.pk %} 
+    Update 
+  {%else %} 
+    Create 
+  {% endif %} 
+  
+  Category 
+{% endblock title %} 
+
+{% block content %}
+
+  {% include 'form.html' with Model='Category' the_url='courses:category_list' %}
+
+{% endblock content %}

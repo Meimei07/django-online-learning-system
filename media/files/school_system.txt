@@ -1,0 +1,8 @@
+Practical
+-model Student and Teacher
+-login need one model, can login, will see results student and teacher
+
+-class user to login, just for login
+
+-teacher and student don't need to login
+
