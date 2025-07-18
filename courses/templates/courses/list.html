@@ -13,114 +13,93 @@
     </div>
 
     <p class="d-inline-flex gap-1">
-      <a class="btn btn-primary" data-bs-toggle="collapse"  href="#filter-button-container" role="button" aria-expanded="
+      <a class="btn btn-outline-dark btn-sm" data-bs-toggle="collapse"  href="#filter-button-container" role="button" aria-expanded="
       {% if selected_category_id or selected_tag_id or selected_instructor_id %}
         true
       {% else %}
         false
       {% endif %}
         " aria-controls="filter-button-container">
+        <i class="bi bi-filter"></i>
         Filter
       </a>
     </p>
 
     {% comment %} filter {% endcomment %}
-    <div class="collapse" id="filter-button-container">
+    <div class="collapse
+      {% if selected_category_id or selected_tags or selected_instructor_id %}
+        show
+      {% endif %}
+      " id="filter-button-container">
       
-      <div class="d-flex gap-2 mb-3">
-        Category:
+      <div>
+        <span class="me-4">Category:</span>
+        
         <form method="get" class="m-0 p-0">
           <input type="hidden" name="category" value="" />
-            
-          <button type="submit" class="btn btn-primary btn-sm filter-btn            
-            ">All</button>
+          <button type="submit" class="filter-btn 
+              {% if not selected_category_id %}
+                active
+              {% endif %}">
+          All</button>
         </form>
-        {% for category in categories  %}
+
+        {% for category in categories %}
+          
           <form method="get" class="m-0 p-0">
             <input type="hidden" name="category" value="{{category.id}}" />
             
-            {% comment %} {% if selected_tags_int %} 
+            {% if selected_tags %}
               
-              {% for tag in selected_tags_int %}
-                <input type="hidden" name="tag" value="{{tag}}" />
+              {% for selected_tag in selected_tags %}
+                <input type="hidden" name="tag" value="{{selected_tag}}" />            
               {% endfor %}
                 
-            {% endif %} {% endcomment %}
-              
-            <button type="submit" class="btn btn-primary btn-sm filter-btn 
-            {% if selected_category_id == category.id %}
-              active
             {% endif %}
-              
-              ">{{category.name}}</button>
-          </form>
-        {% endfor %}
-      </div>
-
-      <!-- <div class="d-flex gap-2 mb-3">
-        Tag:
-        {% for tag in tags %}
-          <form method="get" class="m-0 p-0">
-            {% comment %} Check if this tag is selected {% endcomment %}
-            {% if tag.id in selected_tags_int %}
-              {% comment %} Already selected → Unselect by excluding this tag {% endcomment %}
-              {% for selected_tag in selected_tags_int %}
-                {% if selected_tag != tag.id %}
-                  <input type="hidden" name="tag" value="{{ selected_tag }}">
-                {% endif %}
-              {% endfor %}
-            {% else %}
-              {% comment %} Not selected → Add this tag {% endcomment %}
-              {% for selected_tag in selected_tags_int %}
-                <input type="hidden" name="tag" value="{{ selected_tag }}">
-              {% endfor %}
-              <input type="hidden" name="tag" value="{{ tag.id }}">
-            {% endif %}
-
-            {% if selected_category_id %}
-              <input type="hidden" name="category" value="{{ selected_category_id }}">
-            {% endif %}
-
+           
             {% if selected_instructor_id %}
-              <input type="hidden" name="instructor" value="{{ selected_instructor_id }}">
+              <input type="hidden" name="instructor" value="{{selected_instructor_id}}" />
             {% endif %}
-
-            <button type="submit" class="btn btn-primary btn-sm filter-btn 
-              {% if tag.id in selected_tags_int %}
+                        
+            <button type="submit" class="filter-btn 
+              {% if category.id == selected_category_id %}
                 active
               {% endif %}
-            ">
-              {{ tag.name }}
-            </button>
+              ">{{category.name}}</button>
           </form>
-        {% endfor %}
-      </div> -->
 
-      <div class="d-flex gap-2 mb-3">
-        Tag:
-        {% comment %} javascript python {% endcomment %}
-        {% for tag in tags  %} 
+        {% endfor %}
+
+      </div>
+
+      <div>
+        <span class="me-4">Tag:</span>
+        
+        {% for tag in tags %}
+          
           <form method="get" class="m-0 p-0">
-            <input type="hidden" name="tag" value="{{tag.id}}" />
+            
+            {% if not tag.id in selected_tags %}
+              <input type="hidden" name="tag" value="{{tag.id}}" />
+            {% endif %}
+               
+            {% for selected_tag in selected_tags %}
+                
+              {% if tag.id != selected_tag %}
+                <input type="hidden" name="tag" value="{{selected_tag}}" />
+              {% endif %}
+                
+            {% endfor %}   
 
             {% if selected_category_id %}
               <input type="hidden" name="category" value="{{selected_category_id}}" />
             {% endif %}
-              
-            {% comment %} id javascript {% endcomment %}
-            {% comment %} {% if selected_tag_int %} 
-              
-              {% for selected_tag in selected_tags_int %}
-                
-                {% if tag.id != selected_tag %}
-                  <input type="hidden" name="tag" value="{{selected_tag}}" />      
-                {% endif %}
-                  
-              {% endfor %}
-                
-            {% endif %} {% endcomment %}
 
-            <button type="submit" class="btn btn-primary btn-sm filter-btn 
+            {% if selected_instructor_id %}
+              <input type="hidden" name="instructor" value="{{selected_instructor_id}}" />
+            {% endif %}
+
+            <button type="submit" class="filter-btn 
               {% if selected_tags %}
                 
                 {% for selected_tag in selected_tags %}
@@ -131,16 +110,19 @@
                     
                 {% endfor %}
                   
-              {% endif %}">
-              {{tag.name}}
-            </button>
+              {% endif %}
+              ">{{tag.name}}</button>
           </form>
+
         {% endfor %}
+        
       </div>
 
-      <div class="d-flex gap-2">
-        Instructor:
+      <div>
+        <span class="me-4">Instructor:</span>
+
         {% for instructor in instructors %}
+
           <form method="get" class="m-0 p-0">
             <input type="hidden" name="instructor" value="{{instructor.id}}" />
 
@@ -148,21 +130,22 @@
               <input type="hidden" name="category" value="{{selected_category_id}}" />
             {% endif %}
             
-            {% if selected_tags_int %} 
+            {% if selected_tags %} 
               
-              {% for tag in selected_tags_int %}
-                <input type="hidden" name="tag" value="{{tag}}" />
+              {% for selected_tag in selected_tags %}
+                <input type="hidden" name="tag" value="{{selected_tag}}" />
               {% endfor %}
                 
             {% endif %}
 
-            <button type="submit" class="btn btn-primary btn-sm filter-btn 
+            <button type="submit" class="filter-btn 
             {% if selected_instructor_id == instructor.id %}
               active
             {% endif %}">
             {{instructor.name}}
             </button>
           </form>
+
         {% endfor %}
       </div>
     </div>
@@ -176,7 +159,7 @@
             {% if course.image %}
               <img src="{{ course.image.url }}" class="card-img-top object-fit-cover" alt="{{ course.name }}">
             {% else %}
-              <img src="/media/media/e-learning.png" class="card-img-top object-fit-cover" alt="default-image">
+              <img src="/media/images/e-learning.png" class="card-img-top object-fit-cover" alt="default-image">
             {% endif %}
           </div>
           
@@ -201,45 +184,5 @@
 
     </div>
   </div>
-
-  {% comment %} <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">ID</th>
-        <th scope="col">Name</th>
-        <th scope="col">Category</th>
-        <th scope="col">Instructor</th>
-        <th scope="col">Price</th>
-        <th scope="col">Description</th>
-        <th scope="col">Published Date</th>
-        <th scope="col">Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for course in courses %}
-      <tr>
-        <th scope="row">{{course.id}}</th>
-        <td>{{course.name}}</td>
-        <td>{{course.category.name}}</td>
-        <td>{{course.instructor.name}}</td>
-        <td>${{course.price}}</td>
-        <td>{{course.description}}</td>
-        <td>{{course.published_date}}</td>
-        <td>
-          <a
-            href="{% url 'course_update' course.id %}"
-            class="btn btn-outline-primary btn-sm"
-            >Update</a
-          >
-          <a
-            href="{% url 'course_delete' course.id %}"
-            class="btn btn-outline-danger btn-sm"
-            >Delete</a
-          >
-        </td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table> {% endcomment %}
 
 {% endblock content %}

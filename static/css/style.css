@@ -91,12 +91,12 @@ form label {
   display: flex;
   justify-content: center;
   align-items: center;
-  aspect-ratio: 3/2;
-  object-fit: cover;
 }
 
 .card-img > img {
-  height: 100%;
+  aspect-ratio: 3/2;
+  object-fit: cover;
+  /* height: 100%; */
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
 }
@@ -227,7 +227,7 @@ form label {
 /* Style lesson table */
 .lesson-container {
   display: grid;
-  grid-template-columns: 10% 40% auto auto;
+  grid-template-columns: 10% 40% 35% auto;
   align-items: center;
   font-size: 13px;
   border-bottom: 1px solid gainsboro;
@@ -272,6 +272,24 @@ form label {
 }
 
 /* Style filter buttons */
-.filter-btn.active {
-  background-color: black;
+#filter-button-container {
+  div {
+    display: flex;
+    /* gap: 10px; */
+    margin-bottom: 10px;
+
+    button {
+      border-top: none;
+      border-left: none;
+      border-right: none;
+      background-color: transparent;
+      /* font-size: 20px; */
+      padding: 0 20px;
+
+      &.active {
+        border-bottom: 0.5px solid;
+        font-weight: 500;
+      }
+    }
+  }
 }

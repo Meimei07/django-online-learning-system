@@ -40,13 +40,20 @@
         {% comment %} Total duration {% endcomment %}
         <div class="d-flex align-items-center gap-1">
           <i class="bi bi-alarm pb-1"></i>
-          <div class="total-duration">4hr 12 min</div>
+          <div class="total-duration">
+            {% if total_duration is None %}
+              00:00:00
+            {% else %}
+              {{total_duration}}           
+            {% endif %}
+          </div>
         </div>
 
         {% comment %} Total lessons {% endcomment %}
         <div class="d-flex align-items-center gap-1">
           <i class="bi bi-journals pb-1"></i>
-          <div class="total-lessons">16 lessons</div>
+          <div class="total-lessons">{{total_lessons}} lesson{% if total_lessons > 1 %}s{% endif %}            
+            </div>
         </div>
 
         {% comment %} Price {% endcomment %}
@@ -70,42 +77,11 @@
             </form>
           </div>
         {% endfor %}
-          
-
-        {% comment %} <div
-          class="border rounded-2 d-inline"
-          style="
-            font-size: 12px;
-            background-color: ghostwhite;
-            padding: 2px 7px;
-          "
-        >
-          Frontend
-        </div>
-        <div
-          class="border rounded-2 d-inline"
-          style="
-            font-size: 12px;
-            background-color: ghostwhite;
-            padding: 2px 7px;
-          "
-        >
-          Javascript
-        </div> {% endcomment %}
 
         {% comment %} Add tag form {% endcomment %}
         <form method="post" class="form-container">
           {% csrf_token %} 
           {{form.tag}}
-
-          <!-- <select style="font-size: 12px; padding: 2px 7px; width: auto; height: auto;">
-              <option>Select tag</option>
-              <option>Frontend</option>
-              <option>Backend</option>
-              <option>Python</option>
-              <option>Javascript</option>
-              <option>C#</option>
-            </select>  -->
 
           <button type="submit" name="add-tag" class="border-0 bg-transparent p-0">
             <i class="bi bi-plus-circle"></i>
@@ -142,7 +118,7 @@
 
       <div>
         
-        {% for lesson in course.lessons.all %}
+        {% for lesson in lessons %}
           <div class="lesson-container">
             <div>{{lesson.order}}</div>
 
@@ -157,12 +133,26 @@
             <div>
               <div class="file">
                 <i class="bi bi-filetype-doc"></i>
-                <a href="{{lesson.resource_file.url}}">{{ lesson.resource_file.name|slice:"6:" }}</a>
+                
+                {% if lesson.resource_file  %}
+                  <a href="{{lesson.resource_file.url}}">
+                    {{ lesson.resource_file.name|slice:"6:" }}
+                  </a>
+                {% else %}
+                  <span>No File</span>
+                {% endif %}
+
               </div>
 
               <div class="video_url">
                 <i class="bi bi-play-circle"></i>
-                <a href="{{lesson.video_url}}">{{lesson.name}}</a>
+                
+                {% if lesson.video_url %}
+                  <a href="{{lesson.video_url}}">{{lesson.name}}</a>                 
+                {% else %}
+                  <span>No video</span>
+                {% endif %}
+                  
               </div>
             </div>
 

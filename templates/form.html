@@ -1,4 +1,14 @@
-<div class="fw-semibold fs-4 text-center">{{Model}} Form</div>
+<div class="container-sm">
+
+  <div class="fw-semibold fs-4 text-center">{{Model}} Form</div>
+
+
+  {% if messages %}
+    {% for message in messages %}
+      <p style="color: red;">{{ message }}</p>
+    {% endfor %}
+  {% endif %}
+
 
 <form method="post" {{enctype}}>
   {% csrf_token %} {{form.as_p}}
@@ -16,3 +26,5 @@
     >
   </div>
 </form>
+
+</div>

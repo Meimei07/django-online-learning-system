@@ -1,4 +1,6 @@
 from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.db.models import Sum
 from .models import Category, Tag, Course, Lesson, CourseTag
 from .forms import CategoryForm, TagForm ,CourseForm, LessonForm, CourseTagForm
 from users.models import Instructor
@@ -49,45 +51,15 @@ def Course_List(request):
   selected_category_id = request.GET.get('category')
   if selected_category_id:
     courses = courses.filter(category_id=selected_category_id)
-  else:
-    request.session.flush()
+  
+  selected_tags = request.GET.getlist('tag')
+  if selected_tags:
+    for selected_tag in selected_tags:
+      courses = courses.filter(tags__tag_id=selected_tag)
 
   selected_instructor_id = request.GET.get('instructor')
   if selected_instructor_id:
     courses = courses.filter(instructor_id=selected_instructor_id)
-
-  selected_tags = request.session.get('selected_tags', [])
-  selected_tag_id = request.GET.get('tag')
-
-  if not selected_tag_id:
-    # request.session.flush()
-    print('no tag')
-    request.session.flush()
-    print(selected_tags)
-
-    context = {
-      'courses': courses,
-      'categories': categories,
-      'tags': tags,
-      'instructors': instructors,
-      'selected_category_id': int(selected_category_id) if selected_category_id else None,
-      'selected_instructor_id': int(selected_instructor_id) if selected_instructor_id else None,
-    }
-
-    return render(request, 'courses/list.html', context)
-
-  if selected_tag_id in selected_tags:
-    print('remove')
-    selected_tags.remove(selected_tag_id)
-  else:
-    print(request.GET.get('tag'))
-    selected_tags.append(selected_tag_id)
-
-  request.session['selected_tags'] = selected_tags
-  print(selected_tags)
-
-  for selected_tag in selected_tags:
-    courses = courses.filter(tags__tag_id=selected_tag)
 
   context = {
     'courses': courses,
@@ -139,6 +111,10 @@ def Course_Delete(request, pk):
 def Course_Detail(request, pk):
   course = Course.objects.filter(pk=pk).first()
   form = CourseTagForm(initial={'course':course})
+  order_lessons = course.lessons.all().order_by('order')
+
+  total_duration = course.lessons.aggregate(total=Sum('duration'))['total'] 
+  total_lessons = course.lessons.count()
 
   # add tag to course
   if request.method == 'POST' and 'add-tag' in request.POST:
@@ -150,7 +126,15 @@ def Course_Detail(request, pk):
       course_tag.save()
       return redirect('courses:course_detail', pk=course.id)
 
-  return render(request, 'courses/detail.html', {'course':course, 'form':form})
+  context = {
+    'course':course, 
+    'lessons': order_lessons,
+    'form':form, 
+    'total_duration':total_duration,
+    'total_lessons': total_lessons,
+  }
+
+  return render(request, 'courses/detail.html', context)
 
 #Tag
 def Tag_Create(request):
@@ -188,8 +172,13 @@ def Lesson_Create(request, pk): # pk of course
 
   if request.method == 'POST':
     form = LessonForm(request.POST or None, request.FILES)
+    order = int(request.POST.get('order'))
 
     if form.is_valid():
+      if Lesson.objects.filter(course=course, order=order).exists():
+        messages.error(request, f"Order {order} already exists in this course.")
+        return render(request, 'lessons/create_update.html', {'form':form, 'course': course})
+      
       lesson = form.save(commit=False)
       lesson.course = course
       lesson.save()
