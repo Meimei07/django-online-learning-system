@@ -1,40 +1,52 @@
 {% extends 'base.html' %} 
 
-{% block title %} Course Detail {% endblock title %}
+{% block title %} Student Detail {% endblock title %}
 
 {% block content %}
 
 <div class="px-4">
-  <a href="{% url 'courses:course_list' %}" style="cursor: pointer; color: black;">
+  <a href="{% url 'users:student_list' %}" style="cursor: pointer; color: black;">
     <i class="bi bi-arrow-left"></i>
   </a>
 
   {% comment %} top {% endcomment %}
   <div class="top">
     <div class="flex-grow-1">
-      {% comment %} Instructor info {% endcomment %}
+      {% comment %} Student info {% endcomment %}
       <div class="d-flex gap-2 align-items-center">
         <img
-          src="/media/media/instructor-profile.jpg"
+          src="/media/images/student-profile.jpg"
           class="rounded-circle border"
           style="width: 30px"
           alt="profile"
         />
-        <div>{{course.instructor.name}}</div>
+        <div>{{student.name}}</div>
 
-        <div class="ps-5 text-body-tertiary">
+        {% comment %} <div class="ps-5 text-body-tertiary">
           Published: {{course.published_date}}
-        </div>
+        </div> {% endcomment %}
       </div>
 
       {% comment %} Title {% endcomment %}
-      <div class="title fw-semibold">{{course.name}}</div>
+      {% comment %} <div class="title fw-semibold">{{course.name}}</div> {% endcomment %}
 
       <div class="d-flex gap-3">
-        {% comment %} Category {% endcomment %}
+        {% comment %} Age {% endcomment %}
         <div class="d-flex align-items-center gap-1">
           <i class="bi bi-collection"></i>
-          <div class="category">{{course.category.name}}</div>
+          <div class="category">{{student.age}}</div>
+        </div>
+        
+        {% comment %} Email {% endcomment %}
+        <div class="d-flex align-items-center gap-1">
+          <i class="bi bi-collection"></i>
+          <div class="category">{{student.email}}</div>
+        </div>
+        
+        {% comment %} Address {% endcomment %}
+        <div class="d-flex align-items-center gap-1">
+          <i class="bi bi-collection"></i>
+          <div class="category">{{student.address}}</div>
         </div>
 
         {% comment %} Total duration {% endcomment %}

@@ -1,0 +1,53 @@
+{% extends 'base.html' %} 
+
+{% block title %} 
+  Enrollment 
+{% endblock title %} 
+
+{%block content %}
+
+  <div class="d-flex align-items-center">
+    <div class="flex-grow-1 fw-bold fs-2 mb-4">Enrollment List</div>
+    <a href="{% url 'enrollments:enrollment_create' %}" class="btn btn-primary">Add enrollment</a>
+  </div>
+
+  <div class="overflow-auto">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col"></th>
+          <th scope="col">Student</th>
+          <th scope="col">Course</th>
+          <th scope="col">Instructor</th>
+          <th scope="col">Enrolled Date</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for enrollment in enrollments %}
+        <tr>
+          <th scope="row">
+            <img class="rounded-circle border" style="width: 30px;" src="/media/images/enrollment-profile.jpg" alt="profile">
+          </th>
+          <td>{{enrollment.student.name}}</td>
+          <td>{{enrollment.course.name}}</td>
+          <td>{{enrollment.course.instructor.name}}</td>
+          <td>{{enrollment.enrolled_date}}</td>
+          <td>
+            <a
+              href="{% url 'enrollments:enrollment_update' enrollment.id %}"
+              class="btn btn-outline-primary btn-sm"
+              >Update</a
+            >
+            <a
+              href="{% url 'enrollments:enrollment_delete' enrollment.id %}"
+              class="btn btn-outline-danger btn-sm"
+              >Delete</a
+            >
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock content %}

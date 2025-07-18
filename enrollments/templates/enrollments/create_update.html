@@ -7,11 +7,11 @@
     Create 
   {% endif %} 
   
-  Lesson 
+  Enrollment 
 {% endblock title %} 
 
 {% block content %}
 
-  {% include 'form.html' with messages=messages Model='Lesson' the_url='courses:course_detail' id=course.id enctype='enctype="multipart/form-data"' %}
+  {% include 'form.html' with Model='Enrollment' the_url='enrollments:enrollment_list' %}
 
 {% endblock content %}

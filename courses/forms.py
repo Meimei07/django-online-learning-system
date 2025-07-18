@@ -17,7 +17,7 @@ class CourseForm(forms.ModelForm):
     fields = '__all__'
 
     widgets = {
-      # 'image': forms.ClearableFileInput(attrs={'label': 'Change:'}),
+      'image': forms.FileInput(),
       'published_date': forms.DateInput(attrs={'readonly':'readonly'}),
     }
 
@@ -25,6 +25,10 @@ class LessonForm(forms.ModelForm):
   class Meta:
     model = Lesson
     fields = ['order', 'name', 'video_url', 'duration', 'resource_file']
+
+    widgets = {
+      'resource_file': forms.FileInput(),
+    }
 
 class CourseTagForm(forms.ModelForm):
   class Meta:
