@@ -39,6 +39,11 @@
           <td>${{instructor.salary}}</td>
           <td>
             <a
+              href="{% url 'users:instructor_detail' instructor.id %}"
+              class="btn btn-outline-success btn-sm"
+              >Detail</a
+            >
+            <a
               href="{% url 'users:instructor_update' instructor.id %}"
               class="btn btn-outline-primary btn-sm"
               >Update</a

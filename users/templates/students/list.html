@@ -29,7 +29,13 @@
         {% for student in students %}
         <tr>
           <th scope="row">
-            <img class="rounded-circle border" style="width: 30px;" src="/media/images/student-profile.jpg" alt="profile">
+            <img class="rounded-circle border" style="width: 30px;" src="
+              {% if student.gender == 'Female'  %}
+                /media/images/female-student-profile.jpg
+              {% else %}
+                /media/images/male-student-profile.jpg
+              {% endif %}
+              " alt="profile">
           </th>
           <td>{{student.name}}</td>
           <td>{{student.age}}</td>
@@ -38,6 +44,11 @@
           <td>{{student.phone}}</td>
           <td>{{student.address}}</td>
           <td>
+            <a
+              href="{% url 'users:student_detail' student.id %}"
+              class="btn btn-outline-success btn-sm"
+              >Detail</a
+            >
             <a
               href="{% url 'users:student_update' student.id %}"
               class="btn btn-outline-primary btn-sm"

@@ -70,6 +70,10 @@ def Instructor_Delete(request, pk):
   
   return render(request, 'instructors/delete.html', {'instructor':instructor})
 
+def Instructor_Detail(request, pk):
+  instructor = Instructor.objects.filter(pk=pk).first()
+  return render(request, 'instructors/detail.html', {'instructor':instructor})
+
 #Student
 def Student_List(request):
   students = Student.objects.all()
@@ -102,3 +106,7 @@ def Student_Delete(request, pk):
     return redirect('users:student_list')
   
   return render(request, 'students/delete.html', {'student':student})
+
+def Student_Detail(request, pk):
+  student = Student.objects.filter(pk=pk).first()
+  return render(request, 'students/detail.html', {'student':student})

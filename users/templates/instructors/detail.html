@@ -1,57 +1,57 @@
 {% extends 'base.html' %} 
 
-{% block title %} Student Detail {% endblock title %}
+{% block title %} Instructor Detail {% endblock title %}
 
 {% block content %}
 
 <div class="px-4">
-  <a href="{% url 'users:student_list' %}" style="cursor: pointer; color: black;">
+  <a href="{% url 'users:instructor_list' %}" style="cursor: pointer; color: black;">
     <i class="bi bi-arrow-left"></i>
   </a>
 
   {% comment %} top {% endcomment %}
   <div class="top">
     <div class="flex-grow-1">
-      {% comment %} Student info {% endcomment %}
+      {% comment %} Instructor info {% endcomment %}
       <div class="d-flex gap-2 align-items-center">
         <img
-          src="
-            {% if student.gender == 'Female' %}
-              /media/images/female-student-profile.jpg
-            {% else %}
-              /media/images/male-student-profile.jpg
-            {% endif %}
-            "
+          src="/media/images/instructor-profile.jpg"
           class="rounded-circle border"
           style="width: 30px"
           alt="profile"
         />
-        <div>{{student.name}}</div>
+        <div>{{instructor.name}}</div>
       </div>
 
       <div class="d-flex gap-3">
         {% comment %} Age {% endcomment %}
         <div class="d-flex align-items-center gap-1">
           <i class="bi bi-backpack2"></i>
-          <div class="category">{{student.age}} y.o</div>
+          <div class="category">{{instructor.age}} y.o</div>
         </div>
         
         {% comment %} Email {% endcomment %}
         <div class="d-flex align-items-center gap-1">
           <i class="bi bi-envelope-at"></i>
-          <div class="category">{{student.email}}</div>
+          <div class="category">{{instructor.email}}</div>
         </div>
         
         {% comment %} Phone {% endcomment %}
         <div class="d-flex align-items-center gap-1">
           <i class="bi bi-telephone"></i>
-          <div class="category">{{student.phone}}</div>
+          <div class="category">{{instructor.phone}}</div>
         </div>
         
         {% comment %} Address {% endcomment %}
         <div class="d-flex align-items-center gap-1">
           <i class="bi bi-geo"></i>
-          <div class="category">{{student.address}}</div>
+          <div class="category">{{instructor.address}}</div>
+        </div>
+        
+        {% comment %} Salary {% endcomment %}
+        <div class="d-flex align-items-center gap-1">
+          <i class="bi bi-cash-coin"></i>
+          <div class="category">${{instructor.salary}}</div>
         </div>
       </div>
     </div>
@@ -63,33 +63,33 @@
   <div class="bottom" style="gap: 40px">
     <div class="card-container">  
 
-      {% if student.enrollments.all %}
+      {% if instructor.courses.all %}
         
-        {% for enrollment in student.enrollments.all %}
+        {% for course in instructor.courses.all %}
           <div class="card">
 
             <div class="card-img">
-              {% if enrollment.course.image %}
-                <img src="{{ enrollment.course.image.url }}" class="card-img-top object-fit-cover" alt="{{ enrollment.course.name }}">
+              {% if course.image %}
+                <img src="{{ course.image.url }}" class="card-img-top object-fit-cover" alt="{{ course.name }}">
               {% else %}
                 <img src="/media/images/e-learning.png" class="card-img-top object-fit-cover" alt="default-image">
               {% endif %}
             </div>
             
             <div class="px-3 pb-3">
-              <h5 class="card-title limit-to-2-lines">{{enrollment.course.name}}</h5>
-              <div class="mb-3 limit-to-2-lines">{{enrollment.course.description}}</div>
+              <h5 class="card-title limit-to-2-lines">{{course.name}}</h5>
+              <div class="mb-3 limit-to-2-lines">{{course.description}}</div>
               <div>
-                <div class="card-instructor">{{enrollment.course.instructor}}</div>
+                <div class="card-instructor">{{course.instructor}}</div>
                 
-                {% for course_tag in enrollment.course.tags.all  %}
+                {% for course_tag in course.tags.all  %}
                   <div class="card-instructor">{{course_tag.tag.name}}</div>
                 {% endfor %}
                   
               </div>
               <div class="d-flex align-items-center mt-2">
-                <div class="flex-grow-1 fw-semibold fs-5">${{enrollment.course.price}}</div>
-                <a href="{% url 'courses:course_detail' enrollment.course.id %}" class="btn btn-primary">Details</a>
+                <div class="flex-grow-1 fw-semibold fs-5">${{course.price}}</div>
+                <a href="{% url 'courses:course_detail' course.id %}" class="btn btn-primary">Details</a>
               </div>
             </div>
           </div>
@@ -97,14 +97,10 @@
         
       {% else %}
 
-        <div class="d-flex flex-column">
           <h5>
             <i class="bi bi-info-circle-fill"></i>
-            <strong>No enrollment</strong>
+            <strong>No courses</strong>
           </h5>
-
-          <a href="{% url 'courses:course_list' %}" class="btn btn-outline-dark btn-sm">Go to courses</a>
-        </div>
 
       {% endif %}
         

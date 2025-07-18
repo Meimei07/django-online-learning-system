@@ -15,10 +15,12 @@ urlpatterns = [
   path('instructors/create/', views.Instructor_Create, name='instructor_create'),
   path('instructors/update/<int:pk>/', views.Instructor_Update, name='instructor_update'),
   path('instructors/delete/<int:pk>/', views.Instructor_Delete, name='instructor_delete'),
+  path('instructors/detail/<int:pk>/', views.Instructor_Detail, name='instructor_detail'),
 
   #students
   path('students/', views.Student_List, name='student_list'),
   path('students/create/', views.Student_Create, name='student_create'),
   path('students/update/<int:pk>/', views.Student_Update, name='student_update'),
   path('students/delete/<int:pk>/', views.Student_Delete, name='student_delete'),
+  path('students/detail/<int:pk>/', views.Student_Detail, name='student_detail'),
 ]
