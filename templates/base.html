@@ -14,6 +14,13 @@
       rel="stylesheet" 
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+      integrity="sha512-..."
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
   </head>
 
@@ -28,7 +35,7 @@
         <div class="position-sticky">
           <div class="list-group list-group-flush mx-3 mt-4">
             <a
-              href="#"
+              href="{% url 'dashboard' %}"
               class="list-group-item list-group-item-action py-2 ripple"
               aria-current="true"
             >
@@ -39,38 +46,37 @@
               href="{% url 'users:employee_list' %}"
               class="list-group-item list-group-item-action py-2 ripple"
             >
-              <i class="fas fa-chart-area fa-fw me-3"></i><span>Employee</span>
+              <i class="fa-solid fa-circle-user me-3"></i><span>Employee</span>
             </a>
             <a
               href="{% url 'users:instructor_list' %}"
               class="list-group-item list-group-item-action py-2 ripple"
             >
-              <i class="fas fa-chart-area fa-fw me-3"></i
-              ><span>Instructor</span>
+              <i class="fa-solid fa-chalkboard-user me-3"></i><span>Instructor</span>
             </a>
             <a
               href="{% url 'users:student_list' %}"
               class="list-group-item list-group-item-action py-2 ripple"
             >
-              <i class="fas fa-chart-area fa-fw me-3"></i><span>Student</span>
+              <i class="fa-solid fa-graduation-cap me-3"></i></i><span>Student</span>
             </a>
             <a
               href="{% url 'courses:category_list' %}"
               class="list-group-item list-group-item-action py-2 ripple"
             >
-              <i class="fas fa-chart-area fa-fw me-3"></i><span>Category / Tag</span>
+              <i class="fa-solid fa-list me-3"></i><span>Category / Tag</span>
             </a>
             <a
               href="{% url 'courses:course_list' %}"
               class="list-group-item list-group-item-action py-2 ripple"
             >
-              <i class="fas fa-chart-area fa-fw me-3"></i><span>Course</span>
+              <i class="fa-solid fa-book me-3"></i><span>Course</span>
             </a>
             <a
               href="{% url 'enrollments:enrollment_list' %}"
               class="list-group-item list-group-item-action py-2 ripple"
             >
-              <i class="fas fa-chart-area fa-fw me-3"></i><span>Enrollment</span>
+              <i class="fas fa-chart-area me-3"></i><span>Enrollment</span>
             </a>
           </div>
         </div>
@@ -270,13 +276,7 @@
 
     {% load django_browser_reload %}
     {% django_browser_reload_script %}
-
-    
-    {% block script %}
       
-    {% endblock script %}
-      
-
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"

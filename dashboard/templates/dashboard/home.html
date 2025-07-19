@@ -1,0 +1,161 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+  Dashboard
+{% endblock title %}
+  
+
+{% block content %}
+  <div class="dashboard px-4 py-3">
+
+    <!-- top -->
+    <div class="top-section">
+      <p>Hello, John!</p>
+      <p>Check out what's new and improve in your dashboard!</p>
+      <a href="{% url 'enrollments:enrollment_list' %}">Go to enrollments</a>
+    </div>
+
+    <!-- middle -->
+    <div class="middle-section">
+      <div class="course-card">
+        <h5>Total Instructors</h5>
+        <div>
+          <div>
+            <i class="fa-solid fa-chalkboard-user me-3"></i>
+            <span>{{total_instructors}}</span>
+          </div>
+        </div>
+        <a href="{% url 'users:instructor_list' %}">Go to instructor</a>
+      </div>
+
+      <div class="course-card">
+        <h5>Total Students</h5>
+        <div>
+          <div>
+            <i class="fa-solid fa-graduation-cap me-3"></i>
+            <span>{{total_students}}</span>
+          </div>
+        </div>
+        <a href="{% url 'users:student_list' %}">Go to student</a>
+      </div>
+
+      <div class="course-card">
+        <h5>Total Courses</h5>
+        <div>
+          <div>
+            <i class="fa-solid fa-book me-3"></i>
+            <span>{{total_courses}}</span>
+          </div>
+        </div>
+        <a href="{% url 'courses:course_list' %}">Go to course</a>
+      </div>
+      
+      <div class="course-card">
+        <h5>Total Enrollments</h5>
+        <div>
+          <div>
+            <i class="fas fa-chart-area me-3"></i>
+            <span>{{total_enrollments}}</span>
+          </div>
+        </div>
+        <a href="{% url 'enrollments:enrollment_list' %}">Go to enrollment</a>
+      </div>
+    </div>
+
+    <!-- bottom -->
+    <div class="bottom-section">
+      <!-- left -->
+      <div class="left">
+        <!-- teacher's table with profile and name -->
+        <h5>Instructor List</h5>
+
+        <div class="instructor-list">
+
+          
+          {% for instructor in instructors %}
+            <div class="instructor-info">
+              <div>
+                <img class="rounded-circle border" style="width: 40px;" src="/media/images/instructor-profile.jpg" alt="profile">
+              </div>
+
+              <div>
+                <span class="fw-semibold">{{instructor.name}}</span>
+                <span>Courses: {{instructor.courses.count}}</span>
+              </div>
+            </div>
+          {% endfor %}
+            
+          <!-- <div class="instructor-info">
+            <div>
+              <img class="rounded-circle border" style="width: 40px;" src="/media/images/instructor-profile.jpg" alt="profile">
+            </div>
+
+            <div>
+              <span>Name</span>
+              <span>React 18</span>
+            </div>
+          </div>
+          
+          <div class="instructor-info">
+            <div>
+              <img class="rounded-circle border" style="width: 40px;" src="/media/images/instructor-profile.jpg" alt="profile">
+            </div>
+
+            <div>
+              <span>Name</span>
+              <span>React 18</span>
+            </div>
+          </div> -->
+
+        </div>
+      </div>
+
+      <!-- right -->
+       <div class="right">
+        <!-- student's table with student and course -->
+        <h5>Student List</h5>
+
+        <div>
+          <table class="table">
+
+            <thead>
+              <tr>
+                <th scope="col"></th>
+                <th scope="col">Name</th>
+                <th scope="col">Age</th>
+                <th scope="col">Email</th>
+                <th scope="col">Address</th>
+              </tr>
+            </thead>
+            
+            <tbody>
+              
+              {% for student in students %}
+                <tr>
+                  <th scope="row">
+                    <img class="rounded-circle border" style="width: 30px;" src="
+                    {% if student.gender == 'Female'  %}
+                      /media/images/female-student-profile.jpg
+                    {% else %}
+                      /media/images/male-student-profile.jpg
+                    {% endif %}
+                    " alt="profile">
+                  </th>
+                  <td>{{student.name}}</td>
+                  <td>{{student.age}}</td>
+                  <td>{{student.email}}</td>
+                  <td>{{student.address}}</td>
+                </tr>
+              {% endfor %}
+                
+            </tbody>
+            
+          </table>
+        </div>
+       </div>
+    </div>
+
+  </div>
+{% endblock content %}
+  

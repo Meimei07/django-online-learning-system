@@ -82,7 +82,7 @@ form label {
   padding: 10px 0;
 }
 
-.card {
+.card-container > .card {
   display: flex;
   flex-direction: column;
 }
@@ -290,6 +290,151 @@ form label {
         border-bottom: 0.5px solid;
         font-weight: 500;
       }
+    }
+  }
+}
+
+.status-progress {
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-size: 12px;
+  background-color: rgb(228, 242, 253);
+}
+
+.status-completed {
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-size: 12px;
+  background-color: rgb(231, 254, 242);
+}
+
+.info-container {
+  display: flex;
+  column-gap: 15px;
+  flex-wrap: wrap;
+}
+
+/* Style dashboard */
+.dashboard .top-section {
+  background-color: rgb(231, 186, 192);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+
+  p,
+  a {
+    padding: 0;
+    margin: 0;
+  }
+
+  p:nth-child(1) {
+    font-weight: bold;
+    font-size: 25px;
+    word-spacing: 10px;
+  }
+
+  a {
+    color: pink;
+    background-color: white;
+    padding: 3px 7px;
+    font-size: 14px;
+    max-width: fit-content;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.25s all;
+    text-decoration: none;
+
+    &:hover {
+      color: palevioletred;
+    }
+  }
+}
+
+.dashboard > .middle-section {
+  color: white;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-bottom: 20px;
+
+  .course-card {
+    background-color: rgb(122, 185, 175);
+    padding: 10px 15px;
+    border-radius: 10px;
+
+    & > i:nth-child(1) {
+      color: purple;
+      padding: 12px;
+      background-color: lightblue;
+      border-radius: 50%;
+    }
+
+    & > div:nth-child(2) {
+      font-weight: 500;
+      padding: 10px 0;
+    }
+
+    & > div:nth-child(3) {
+      display: inline-flex;
+      gap: 20px;
+      padding: 8px 15px;
+      border-radius: 5px;
+      background-color: rgb(235, 235, 235);
+    }
+
+    & > a {
+      background-color: white;
+      padding: 3px 7px;
+      font-size: 14px;
+      max-width: fit-content;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.25s all;
+      text-decoration: none;
+      color: rgb(122, 185, 175);
+
+      &:hover {
+        color: rgb(46, 122, 109);
+      }
+    }
+  }
+}
+
+.bottom-section {
+  display: grid;
+  grid-template-columns: 30% auto;
+  gap: 20px;
+
+  .left {
+    /* background-color: rgb(241, 239, 239); */
+    border: 1px solid palevioletred;
+    padding: 10px;
+    border-radius: 10px;
+  }
+
+  .right {
+    padding: 10px;
+    border: 1px solid palevioletred;
+    border-radius: 10px;
+  }
+}
+
+.bottom-section > .left > .instructor-list {
+  .instructor-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid gainsboro;
+    padding: 8px 5px;
+
+    & > div:nth-child(2) {
+      font-size: 13px;
+      display: flex;
+      flex-direction: column;
     }
   }
 }

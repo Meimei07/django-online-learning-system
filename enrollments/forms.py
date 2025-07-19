@@ -12,5 +12,6 @@ class EnrollmentFormInCourse(forms.ModelForm):
     fields = ['student']
 
     widgets = {
-      'enrolled_date': forms.DateInput(attrs={'readonly':'readonly'})
+      'enrolled_date': forms.DateInput(attrs={'readonly':'readonly'}),
+      'status': forms.TextInput(attrs={'readonly':'readonly'}),
     }
