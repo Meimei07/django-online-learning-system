@@ -42,42 +42,61 @@
               <i class="fas fa-tachometer-alt fa-fw me-3"></i
               ><span>Main dashboard</span>
             </a>
-            <a
-              href="{% url 'users:employee_list' %}"
-              class="list-group-item list-group-item-action py-2 ripple"
-            >
-              <i class="fa-solid fa-circle-user me-3"></i><span>Employee</span>
-            </a>
-            <a
-              href="{% url 'users:instructor_list' %}"
-              class="list-group-item list-group-item-action py-2 ripple"
-            >
-              <i class="fa-solid fa-chalkboard-user me-3"></i><span>Instructor</span>
-            </a>
-            <a
-              href="{% url 'users:student_list' %}"
-              class="list-group-item list-group-item-action py-2 ripple"
-            >
-              <i class="fa-solid fa-graduation-cap me-3"></i></i><span>Student</span>
-            </a>
-            <a
-              href="{% url 'courses:category_list' %}"
-              class="list-group-item list-group-item-action py-2 ripple"
-            >
-              <i class="fa-solid fa-list me-3"></i><span>Category / Tag</span>
-            </a>
+            
+            <!-- employee - instructor - student -->
+            {% if request.user.groups.all.0.name == 'admin' %}
+              
+              <a
+                href="{% url 'users:employee_list' %}"
+                class="list-group-item list-group-item-action py-2 ripple"
+              >
+                <i class="fa-solid fa-circle-user me-3"></i><span>Employee</span>
+              </a>
+              <a
+                href="{% url 'users:instructor_list' %}"
+                class="list-group-item list-group-item-action py-2 ripple"
+              >
+                <i class="fa-solid fa-chalkboard-user me-3"></i><span>Instructor</span>
+              </a>
+              <a
+                href="{% url 'users:student_list' %}"
+                class="list-group-item list-group-item-action py-2 ripple"
+              >
+                <i class="fa-solid fa-graduation-cap me-3"></i></i><span>Student</span>
+              </a>
+              
+            {% endif %}
+              
+            <!-- category/tag  -->
+            {% if request.user.groups.all.0.name == 'admin' or request.user.groups.all.0.name == 'instructor' %}
+              
+              <a
+                href="{% url 'courses:category_list' %}"
+                class="list-group-item list-group-item-action py-2 ripple"
+              >
+                <i class="fa-solid fa-list me-3"></i><span>Category / Tag</span>
+              </a>
+              
+            {% endif %}
+              
             <a
               href="{% url 'courses:course_list' %}"
               class="list-group-item list-group-item-action py-2 ripple"
             >
               <i class="fa-solid fa-book me-3"></i><span>Course</span>
             </a>
-            <a
-              href="{% url 'enrollments:enrollment_list' %}"
-              class="list-group-item list-group-item-action py-2 ripple"
-            >
-              <i class="fas fa-chart-area me-3"></i><span>Enrollment</span>
-            </a>
+            
+            {% if request.user.groups.all.0.name == 'admin' %}
+            
+              <a
+                href="{% url 'enrollments:enrollment_list' %}"
+                class="list-group-item list-group-item-action py-2 ripple"
+              >
+                <i class="fas fa-chart-area me-3"></i><span>Enrollment</span>
+              </a>
+              
+            {% endif %}
+              
           </div>
         </div>
       </nav>
@@ -111,9 +130,17 @@
           </a>
 
           <!-- Right links -->
-          <ul class="navbar-nav ms-auto d-flex flex-row">
+          <ul class="navbar-nav ms-auto d-flex flex-row align-items-center gap-3">
             <!-- Notification dropdown -->
-            <li class="nav-item dropdown">
+            <li class="nav-item fs-5">
+              Hello, {{request.user}}!
+            </li>
+            
+            <li class="nav-item">
+              <a href="{% url 'users:logout' %}"><i class="bi bi-box-arrow-right fs-4 text-secondary me-3" style="cursor: pointer;"></i></a>
+            </li>
+
+            {% comment %} <li class="nav-item dropdown">
               <a
                 data-mdb-dropdown-init
                 class="nav-link me-3 me-lg-0 dropdown-toggle hidden-arrow"
@@ -142,23 +169,23 @@
                   <a class="dropdown-item" href="#">Something else here</a>
                 </li>
               </ul>
-            </li>
+            </li> {% endcomment %}
 
             <!-- Icon -->
-            <li class="nav-item">
+            {% comment %} <li class="nav-item">
               <a class="nav-link me-3 me-lg-0" href="#">
                 <i class="fas fa-fill-drip"></i>
               </a>
-            </li>
+            </li> {% endcomment %}
             <!-- Icon -->
-            <li class="nav-item me-3 me-lg-0">
+            {% comment %} <li class="nav-item me-3 me-lg-0">
               <a class="nav-link" href="#">
                 <i class="fab fa-github"></i>
               </a>
-            </li>
+            </li> {% endcomment %}
 
             <!-- Icon dropdown -->
-            <li class="nav-item dropdown">
+            {% comment %} <li class="nav-item dropdown">
               <a
                 data-mdb-dropdown-init
                 class="nav-link me-3 me-lg-0 dropdown-toggle hidden-arrow"
@@ -222,10 +249,10 @@
                   >
                 </li>
               </ul>
-            </li>
+            </li> {% endcomment %}
 
             <!-- Avatar -->
-            <li class="nav-item dropdown">
+            {% comment %} <li class="nav-item dropdown">
               <a
                 data-mdb-dropdown-init
                 class="nav-link dropdown-toggle hidden-arrow d-flex align-items-center"
@@ -257,7 +284,7 @@
                   <a class="dropdown-item" href="#">Logout</a>
                 </li>
               </ul>
-            </li>
+            </li> {% endcomment %}
           </ul>
         </div>
         <!-- Container wrapper -->
@@ -274,9 +301,9 @@
     </main>
     <!--Main layout-->
 
-    {% load django_browser_reload %}
-    {% django_browser_reload_script %}
-      
+    {% comment %} {% load django_browser_reload %}
+    {% django_browser_reload_script %} {% endcomment %}
+
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"

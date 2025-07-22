@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+  Dashboard
+{% endblock title %}
+  
+
+{% block content %}
+  <div class="dashboard px-4 py-3">
+
+    <!-- top -->
+    <div class="top-section">
+      <p>Hello, {{request.user}}!</p>
+      <p>Check out what's new and improve in your dashboard!</p>
+      <a href="{% url 'courses:course_list' %}">Go to courses</a>
+    </div>
+
+    <!-- middle -->
+    <div class="middle-section">
+      <div class="course-card-container">
+        
+        <div class="course-card">
+          <h5>Total Courses</h5>
+          <div>
+            <div>
+              <i class="fa-solid fa-chalkboard-user me-3"></i>
+              <span>{{enrollments.count}}</span>
+            </div>
+          </div>
+          <a href="{% url 'courses:course_list' %}">See more courses</a>
+        </div>
+
+        <div class="course-card">
+          <h5>Total In Progress</h5>
+          <div>
+            <div>
+              <i class="fa-solid fa-book me-3"></i>
+              <span>{{total_progress}}</span>
+            </div>
+          </div>
+          <a href="#myEnrolledCourses">Complete my courses</a> 
+        </div>
+
+        <div class="course-card">
+          <h5>Total Completed</h5>
+          <div>
+            <div>
+              <i class="fa-solid fa-graduation-cap me-3"></i>
+              <span>{{total_completed}}</span>
+            </div>
+          </div>
+          <a href="{% url 'courses:course_list' %}">See more courses</a>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- bottom -->
+    <div id="myEnrolledCourses" class="bottom-section" style="gap: 40px">
+      <div class="right">
+        
+        <h5>My Enrolled Courses</h5>
+
+        <div class="card-container border border-0">  
+
+          {% if enrollments.all %}
+            
+            {% for enrollment in enrollments %}
+              <div class="card">
+
+                <div class="card-img">
+                  {% if enrollment.course.image %}
+                    <img src="{{ enrollment.course.image.url }}" class="card-img-top object-fit-cover" alt="{{ enrollment.course.name }}">
+                  {% else %}
+                    <img src="/media/images/e-learning.png" class="card-img-top object-fit-cover" alt="default-image">
+                  {% endif %}
+                </div>
+                
+                <div class="px-3 pb-3">
+                  <h5 class="card-title limit-to-2-lines">{{enrollment.course.name}}</h5>
+                  <div class="mb-3 limit-to-2-lines">{{enrollment.course.description}}</div>
+                  <div>
+                    <div class="card-instructor">{{enrollment.course.instructor}}</div>
+                    
+                    {% for course_tag in enrollment.course.tags.all  %}
+                      <div class="card-instructor">{{course_tag.tag.name}}</div>
+                    {% endfor %}
+                      
+                  </div>
+                  <div class="d-flex align-items-center mt-2">
+                    <div class="flex-grow-1 fw-semibold fs-5">${{enrollment.course.price}}</div>
+                    <a href="{% url 'courses:course_detail' enrollment.course.id %}" class="btn btn-primary">Details</a>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+            
+          {% else %}
+
+            <div style="width: 170px">
+              <h5>
+                <i class="bi bi-info-circle-fill"></i>
+                <strong>No enrollment</strong>
+              </h5>
+
+              <a href="{% url 'courses:course_list' %}" class="btn btn-outline-dark btn-sm d-block">Enroll Now</a>
+            </div>
+
+          {% endif %}
+            
+
+
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+{% endblock content %}
+  

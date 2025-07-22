@@ -9,7 +9,13 @@
   <div class="px-4">
     <div class="d-flex align-items-center mb-4">
       <div class="flex-grow-1 fw-bold fs-2">Course List</div>
-      <a href="{% url 'courses:course_create' %}" class="btn btn-primary">Add course</a>
+      
+      {% if request.user.groups.all.0.name == 'admin' or request.user.groups.all.0.name == 'instructor' %}
+
+        <a href="{% url 'courses:course_create' %}" class="btn btn-primary">Add course</a>
+        
+      {% endif %}    
+
     </div>
 
     <p class="d-inline-flex gap-1">
@@ -25,16 +31,16 @@
       </a>
     </p>
 
-    {% comment %} filter {% endcomment %}
+    <!-- filter -->
     <div class="collapse
       {% if selected_category_id or selected_tags or selected_instructor_id %}
         show
       {% endif %}
       " id="filter-button-container">
       
-      <div>
-        <span class="me-4">Category:</span>
-        
+      <!-- by category -->
+      <span class="fw-semibold">Category</span>
+      <div class="scroll-container">
         <form method="get" class="m-0 p-0">
           <input type="hidden" name="category" value="" />
           <button type="submit" class="filter-btn 
@@ -56,12 +62,12 @@
               {% endfor %}
                 
             {% endif %}
-           
+            
             {% if selected_instructor_id %}
               <input type="hidden" name="instructor" value="{{selected_instructor_id}}" />
             {% endif %}
                         
-            <button type="submit" class="filter-btn 
+            <button type="submit" class="
               {% if category.id == selected_category_id %}
                 active
               {% endif %}
@@ -69,20 +75,20 @@
           </form>
 
         {% endfor %}
+      </div>     
 
-      </div>
-
-      <div>
-        <span class="me-4">Tag:</span>
+      <!-- by tags -->
+      <span class="fw-semibold">Tag</span>
+      <div class="scroll-container">
         
         {% for tag in tags %}
           
-          <form method="get" class="m-0 p-0">
+          <form method="get" class="p-0 m-0">
             
             {% if not tag.id in selected_tags %}
               <input type="hidden" name="tag" value="{{tag.id}}" />
             {% endif %}
-               
+              
             {% for selected_tag in selected_tags %}
                 
               {% if tag.id != selected_tag %}
@@ -99,7 +105,7 @@
               <input type="hidden" name="instructor" value="{{selected_instructor_id}}" />
             {% endif %}
 
-            <button type="submit" class="filter-btn 
+            <button type="submit" class=" filter-btn 
               {% if selected_tags %}
                 
                 {% for selected_tag in selected_tags %}
@@ -118,36 +124,42 @@
         
       </div>
 
-      <div>
-        <span class="me-4">Instructor:</span>
+      <!-- by instructor -->
+      
+      {% if request.user.groups.all.0.name != 'instructor' %}
 
-        {% for instructor in instructors %}
+        <span class="fw-semibold">Instructor:</span>
+        <div class="scroll-container">
 
-          <form method="get" class="m-0 p-0">
-            <input type="hidden" name="instructor" value="{{instructor.id}}" />
+          {% for instructor in instructors %}
 
-            {% if selected_category_id %}
-              <input type="hidden" name="category" value="{{selected_category_id}}" />
-            {% endif %}
-            
-            {% if selected_tags %} 
+            <form method="get" class="m-0 p-0">
+              <input type="hidden" name="instructor" value="{{instructor.id}}" />
+
+              {% if selected_category_id %}
+                <input type="hidden" name="category" value="{{selected_category_id}}" />
+              {% endif %}
               
-              {% for selected_tag in selected_tags %}
-                <input type="hidden" name="tag" value="{{selected_tag}}" />
-              {% endfor %}
+              {% if selected_tags %} 
                 
-            {% endif %}
+                {% for selected_tag in selected_tags %}
+                  <input type="hidden" name="tag" value="{{selected_tag}}" />
+                {% endfor %}
+                  
+              {% endif %}
 
-            <button type="submit" class="filter-btn 
-            {% if selected_instructor_id == instructor.id %}
-              active
-            {% endif %}">
-            {{instructor.name}}
-            </button>
-          </form>
+              <button type="submit" class="filter-btn 
+                {% if selected_instructor_id == instructor.id %}
+                  active
+                {% endif %}">{{instructor.name}}
+              </button>
+            </form>
 
-        {% endfor %}
-      </div>
+          {% endfor %}
+        </div>
+
+      {% endif %}
+        
     </div>
 
     <div class="card-container">  
@@ -186,3 +198,4 @@
   </div>
 
 {% endblock content %}
+

@@ -5,8 +5,8 @@
 {% block content %}
 
 <div class="px-4">
-  <a href="{% url 'courses:course_list' %}" style="cursor: pointer; color: black;">
-    <i class="bi bi-arrow-left"></i>
+  <a href="{% url 'courses:course_list' %}" style="cursor: pointer; color: black">
+    <div class="d-inline-block py-2 pe-3"><i class="bi bi-arrow-left"></i></div>
   </a>
 
   {% comment %} top {% endcomment %}
@@ -50,7 +50,7 @@
         </div>
 
         {% comment %} Total lessons {% endcomment %}
-        <div class="d-flex align-items-center gap-1">
+        <div class="d-flex align-items-center gap-1 text-nowrap">
           <i class="bi bi-journals pb-1"></i>
           <div class="total-lessons">{{total_lessons}} lesson{% if total_lessons > 1 %}s{% endif %}            
             </div>
@@ -70,39 +70,96 @@
         {% for course_tag in course.tags.all %}
           <div class="tag">
             <span>{{course_tag.tag.name}}</span>
-            <form method="post" 
-                  action="{% url 'courses:course_tag_delete' course_tag.id %}" class="d-inline p-0">
-              {% csrf_token %}
-              <button type="submit" class="border-0 bg-transparent p-0"><i class="bi bi-x-lg"></i></button>
-            </form>
+
+            {% if request.user.groups.all.0.name == 'admin' or request.user.groups.all.0.name == 'instructor' %}
+
+              <form method="post" 
+                    action="{% url 'courses:course_tag_delete' course_tag.id %}" class="d-inline p-0">
+                {% csrf_token %}
+                <button type="submit" class="border-0 bg-transparent p-0"><i class="bi bi-x-lg"></i></button>
+              </form>
+              
+            {% endif %}   
+
           </div>
         {% endfor %}
 
         {% comment %} Add tag form {% endcomment %}
-        <form method="post" class="form-container">
-          {% csrf_token %} 
-          {{form.tag}}
+        {% if request.user.groups.all.0.name == 'admin' or request.user.groups.all.0.name == 'instructor' %}
 
-          <button type="submit" name="add-tag" class="border-0 bg-transparent p-0">
-            <i class="bi bi-plus-circle"></i>
-          </button>
-        </form>
+          <form method="post" class="form-container">
+            {% csrf_token %} 
+            {{form.tag}}
+
+            <button type="submit" name="add-tag" class="border-0 bg-transparent p-0">
+              <i class="bi bi-plus-circle"></i>
+            </button>
+          </form>
+        
+        {% endif %}   
+          
       </div>
     </div>
 
     {% comment %} Enroll student, update/delete course {% endcomment %}
     <div class="btn-container">
-      <a href="{% url 'enrollments:enrollment_create_by_employee' course.id %}" class="btn btn-outline-success btn-sm">Enroll</a>
-      <a
-        href="{% url 'courses:course_update' course.id %}"
-        class="btn btn-outline-primary btn-sm"
-        >Update</a
-      >
-      <a
-        href="{% url 'courses:course_delete' course.id %}"
-        class="btn btn-outline-danger btn-sm"
-        >Delete</a
-      >
+      
+      {% if course.enrollments.all  %}
+        <select class="border border-1 border-dark rounded-1 p-1">
+          <option>Enrolled Students</option>
+
+          {% for enrollment in course.enrollments.all %}
+            <option>{{enrollment.student.name}}</option>
+          {% endfor %}
+        </select>
+            
+      {% else %}
+        <div class="border border-1 border-dark rounded-1 py-1 px-2"><i class="fa-solid fa-circle-exclamation"></i> No Enrollement</div>
+      {% endif %}
+             
+      {% if request.user.groups.all.0.name == 'admin' %}
+        
+        <a 
+          href="{% url 'enrollments:enrollment_create_by_employee' course.id %}"
+          class="btn btn-outline-success btn-sm"
+          >Enroll
+        </a>
+
+      {% elif request.user.groups.all.0.name == 'student' %}
+
+        {% if messages %}
+          {% for message in messages %}
+            <div class="btn btn-danger btn-sm"><i class="fa-solid fa-circle-exclamation"></i> {{ message }}</div>
+          {% endfor %}
+        {% endif %}  
+
+        <form method="post" action="{% url 'enrollments:enrollment_create_by_employee' course.id %}" class="m-0 p-0">
+          {% csrf_token %}
+
+          <button type="submit" name="add-enrollment" 
+                  class="btn btn-outline-success btn-sm">
+            Enroll
+          </button>
+        </form>
+
+      {% endif %}  
+      
+      {% if request.user.groups.all.0.name == 'admin' or request.user.groups.all.0.name == 'instructor' %}
+      
+        <a
+          href="{% url 'courses:course_update' course.id %}"
+          class="btn btn-outline-primary btn-sm"
+          >Update
+        </a>
+        <a
+          href="{% url 'courses:course_delete' course.id %}"
+          class="btn btn-outline-danger btn-sm"
+          >Delete
+        </a>
+        
+      {% endif %}
+        
+      
     </div>
   </div>
 
@@ -112,57 +169,77 @@
   <div class="bottom" style="gap: 40px">
     {% comment %} left {% endcomment %}
     <div style="flex: 1.5">
-      <a href="{% url 'courses:lesson_create' course.id %}" class="btn btn-outline-info btn-sm mb-2" style="font-size: 12px"
-        >Add Lesson</a
-      >
 
+      <!-- Add lesson button -->
+      {% if request.user.groups.all.0.name == 'admin' or request.user.groups.all.0.name == 'instructor' %}
+
+        <a href="{% url 'courses:lesson_create' course.id %}" class="btn btn-outline-info btn-sm mb-2" style="font-size: 12px"
+          >Add Lesson</a
+        >
+        
+      {% endif %}   
+
+      <!-- lessons -->
       <div>
         
-        {% for lesson in lessons %}
-          <div class="lesson-container">
-            <div>{{lesson.order}}</div>
+        {% if lessons.all %}
+          
+          {% for lesson in lessons %}
+            <div class="lesson-container">
+              <div>{{lesson.order}}</div>
 
-            <div class="px-2">
-              <div class="lh-sm">{{lesson.name}}</div>
-              <div class="duration">
-                <i class="bi bi-camera-video pb-1"></i>
-                {{lesson.duration}}
-              </div>
-            </div>
-
-            <div>
-              <div class="file">
-                <i class="bi bi-filetype-doc"></i>
-                
-                {% if lesson.resource_file  %}
-                  <a href="{{lesson.resource_file.url}}">
-                    {{ lesson.resource_file.name|slice:"6:" }}
-                  </a>
-                {% else %}
-                  <span>No File</span>
-                {% endif %}
-
+              <div class="px-2">
+                <div class="lh-sm">{{lesson.name}}</div>
+                <div class="duration">
+                  <i class="bi bi-camera-video pb-1"></i>
+                  {{lesson.duration}}
+                </div>
               </div>
 
-              <div class="video_url">
-                <i class="bi bi-play-circle"></i>
-                
-                {% if lesson.video_url %}
-                  <a href="{{lesson.video_url}}">{{lesson.name}}</a>                 
-                {% else %}
-                  <span>No video</span>
-                {% endif %}
+              <div>
+                <div class="file">
+                  <i class="bi bi-filetype-doc"></i>
                   
-              </div>
-            </div>
+                  {% if lesson.resource_file  %}
+                    <a href="{{lesson.resource_file.url}}">
+                      {{ lesson.resource_file.name|slice:"6:" }}
+                    </a>
+                  {% else %}
+                    <span>No File</span>
+                  {% endif %}
 
-            <div class="px-2">
-              <a href="{% url 'courses:lesson_update' lesson.id %}" class="btn-update"><i class="bi bi-pencil-square"></i></a>
-              <a href="{% url 'courses:lesson_delete' lesson.id %}" class="btn-delete"><i class="bi bi-x-square"></i></a>
+                </div>
+
+                <div class="video_url">
+                  <i class="bi bi-play-circle"></i>
+                  
+                  {% if lesson.video_url %}
+                    <a href="{{lesson.video_url}}">{{lesson.name}}</a>                 
+                  {% else %}
+                    <span>No video</span>
+                  {% endif %}
+                    
+                </div>
+              </div>
+
+              {% if request.user.groups.all.0.name == 'admin' or request.user.groups.all.0.name == 'instructor' %}
+
+                <div class="px-2">
+                  <a href="{% url 'courses:lesson_update' lesson.id %}" class="btn-update"><i class="bi bi-pencil-square"></i></a>
+                  <a href="{% url 'courses:lesson_delete' lesson.id %}" class="btn-delete"><i class="bi bi-x-square"></i></a>
+                </div>
+                
+              {% endif %}   
+              
             </div>
-            
-          </div>
-        {% endfor %}
+          {% endfor %}
+
+        {% else %}
+          <h5>
+            <i class="fa-solid fa-circle-exclamation"></i>
+            <strong>No lessons</strong>
+          </h5>
+        {% endif %}       
           
       </div>
 
@@ -186,7 +263,7 @@
       />
       {% else %}
       <img
-        src="/media/media/e-learning.png"
+        src="/media/images/e-learning.png"
         class="rounded-1 mt-2"
         style="width: 100%; aspect-ratio: 2; object-fit: cover"
         alt="default"

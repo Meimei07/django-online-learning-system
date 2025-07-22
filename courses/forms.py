@@ -21,6 +21,16 @@ class CourseForm(forms.ModelForm):
       'published_date': forms.DateInput(attrs={'readonly':'readonly'}),
     }
 
+class CourseFormByInstructor(forms.ModelForm):
+  class Meta:
+    model = Course
+    fields = ['name', 'category', 'price', 'description', 'image']
+
+    widgets = {
+      'image': forms.FileInput(),
+      'published_date': forms.DateInput(attrs={'readonly':'readonly'}),
+    }
+
 class LessonForm(forms.ModelForm):
   class Meta:
     model = Lesson

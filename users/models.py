@@ -1,7 +1,9 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 class Employee(models.Model):
+  user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
   name = models.CharField(max_length=100)
   age = models.IntegerField()
   email = models.EmailField()
@@ -12,6 +14,7 @@ class Employee(models.Model):
     return self.name
 
 class Instructor(models.Model):
+  user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
   name = models.CharField(max_length=100)
   age = models.IntegerField()
   email = models.EmailField()
@@ -28,6 +31,7 @@ class Student(models.Model):
     'Male': 'Male'
   }
 
+  user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
   name = models.CharField(max_length=100)
   age = models.IntegerField()
   gender = models.CharField(max_length=15, choices=GENDER_CHOICES)

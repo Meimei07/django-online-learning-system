@@ -1,0 +1,171 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+  Dashboard
+{% endblock title %}
+  
+
+{% block content %}
+  <div class="dashboard px-4 py-3">
+
+    <!-- top -->
+    <div class="top-section">
+      <p>Hello, {{request.user}}!</p>
+      <p>Check out what's new and improve in your dashboard!</p>
+      <a href="{% url 'courses:course_list' %}">Go to courses</a>
+    </div>
+
+    <!-- middle -->
+    <div class="middle-section">
+      <h5>My Courses</h5>
+      
+      <div class="course-card-container">
+        {% for course in courses %}
+
+          <div class="course-card">
+            <i class="fa-regular fa-newspaper"></i>
+            <div class="limit-to-2-lines">{{course.name}}</div>
+            <div>
+              <div>
+                <i class="fa-solid fa-book-open"></i>
+                <span>{{course.lessons.count}}</span>
+              </div>
+
+              <div>
+                <i class="fa-solid fa-user-group"></i>
+                <span>{{course.enrollments.count}}</span>
+              </div>
+            </div>
+          </div>
+
+        {% endfor %}
+      </div>
+        
+
+      {% comment %} <div class="course-card">
+        <i class="fa-solid fa-house"></i>
+        <div>React 18 Course 2025 - Learn React JS the fast way</div>
+        <div>
+          <div>
+            <i class="fa-solid fa-book-open"></i>
+            <span>16</span>
+          </div>
+
+          <div>
+            <i class="fa-solid fa-user-group"></i>
+            <span>5</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="course-card">
+        <i class="fa-solid fa-house"></i>
+        <div>React 18 Course 2025 - Learn React JS the fast way</div>
+        <div>
+          <div>
+            <i class="fa-solid fa-book-open"></i>
+            <span>16</span>
+          </div>
+
+          <div>
+            <i class="fa-solid fa-user-group"></i>
+            <span>5</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="course-card">
+        <i class="fa-solid fa-house"></i>
+        <div>React 18 Course 2025 - Learn React JS the fast way</div>
+        <div>
+          <div>
+            <i class="fa-solid fa-book-open"></i>
+            <span>16</span>
+          </div>
+
+          <div>
+            <i class="fa-solid fa-user-group"></i>
+            <span>5</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="course-card">
+        <i class="fa-solid fa-house"></i>
+        <div>React 18 Course 2025 - Learn React JS the fast way</div>
+        <div>
+          <div>
+            <i class="fa-solid fa-book-open"></i>
+            <span>16</span>
+          </div>
+
+          <div>
+            <i class="fa-solid fa-user-group"></i>
+            <span>5</span>
+          </div>
+        </div>
+      </div> {% endcomment %}
+    </div>
+
+
+    <!-- bottom -->
+    <div class="bottom-section">
+      <!-- right -->
+       <div class="right">
+        <!-- enrollment's table with student and course -->
+        <h5>Enrollment List</h5>
+
+        <div class="overflow-auto">
+          <table class="table" style="min-width: 700px;">
+
+            <thead>
+              <tr>
+                <th scope="col"></th>
+                <th scope="col">Student</th>
+                <th scope="col">Course</th>
+                <th scope="col">Enrolled Date</th>
+                <th scope="col">Status</th>
+              </tr>
+            </thead>
+            
+            <tbody>
+              
+              {% for enrollment in enrollments %}
+                <tr>
+                  <th scope="row">
+                    <img class="rounded-circle border" style="width: 30px;" src="
+                    {% if enrollment.student.gender == 'Female'  %}
+                      /media/images/female-student-profile.jpg
+                    {% else %}
+                      /media/images/male-student-profile.jpg
+                    {% endif %}
+                    " alt="profile">
+                  </th>
+                  <td>{{enrollment.student.name}}</td>
+                  <td>{{enrollment.course.name}}</td>
+                  <td>{{enrollment.enrolled_date}}</td>
+                  <td>
+                    <span class="
+                      {% if enrollment.status == 'Progress' %}
+                        status-progress
+                      {% else %}
+                        status-completed
+                      {% endif %}
+                    ">{{enrollment.status}}</span>
+                  </td>
+                </tr>
+              {% endfor %}
+                
+            </tbody>
+            
+          </table>
+        </div>
+       </div>
+    </div>
+
+  </div>
+{% endblock content %}
+  
+  
+  

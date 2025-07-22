@@ -3,7 +3,7 @@
 <form method="post" {{enctype}}>
   {% if messages %}
     {% for message in messages %}
-      <div class="text-danger mb-3">{{ message }}</div>
+      <div class="text-danger mb-3"><i class="fa-solid fa-circle-exclamation"></i> {{ message }}</div>
     {% endfor %}
   {% endif %}
 

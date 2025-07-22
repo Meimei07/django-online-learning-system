@@ -11,55 +11,57 @@
 
     <!-- top -->
     <div class="top-section">
-      <p>Hello, John!</p>
+      <p>Hello, {{request.user}}!</p>
       <p>Check out what's new and improve in your dashboard!</p>
       <a href="{% url 'enrollments:enrollment_list' %}">Go to enrollments</a>
     </div>
 
     <!-- middle -->
     <div class="middle-section">
-      <div class="course-card">
-        <h5>Total Instructors</h5>
-        <div>
+      <div class="course-card-container">
+        <div class="course-card">
+          <h5>Total Instructors</h5>
           <div>
-            <i class="fa-solid fa-chalkboard-user me-3"></i>
-            <span>{{total_instructors}}</span>
+            <div>
+              <i class="fa-solid fa-chalkboard-user me-3"></i>
+              <span>{{total_instructors}}</span>
+            </div>
           </div>
+          <a href="{% url 'users:instructor_list' %}">Go to instructor</a>
         </div>
-        <a href="{% url 'users:instructor_list' %}">Go to instructor</a>
-      </div>
 
-      <div class="course-card">
-        <h5>Total Students</h5>
-        <div>
+        <div class="course-card">
+          <h5>Total Students</h5>
           <div>
-            <i class="fa-solid fa-graduation-cap me-3"></i>
-            <span>{{total_students}}</span>
+            <div>
+              <i class="fa-solid fa-graduation-cap me-3"></i>
+              <span>{{total_students}}</span>
+            </div>
           </div>
+          <a href="{% url 'users:student_list' %}">Go to student</a>
         </div>
-        <a href="{% url 'users:student_list' %}">Go to student</a>
-      </div>
 
-      <div class="course-card">
-        <h5>Total Courses</h5>
-        <div>
+        <div class="course-card">
+          <h5>Total Courses</h5>
           <div>
-            <i class="fa-solid fa-book me-3"></i>
-            <span>{{total_courses}}</span>
+            <div>
+              <i class="fa-solid fa-book me-3"></i>
+              <span>{{total_courses}}</span>
+            </div>
           </div>
+          <a href="{% url 'courses:course_list' %}">Go to course</a>
         </div>
-        <a href="{% url 'courses:course_list' %}">Go to course</a>
-      </div>
-      
-      <div class="course-card">
-        <h5>Total Enrollments</h5>
-        <div>
+        
+        <div class="course-card">
+          <h5>Total Enrollments</h5>
           <div>
-            <i class="fas fa-chart-area me-3"></i>
-            <span>{{total_enrollments}}</span>
+            <div>
+              <i class="fas fa-chart-area me-3"></i>
+              <span>{{total_enrollments}}</span>
+            </div>
           </div>
+          <a href="{% url 'enrollments:enrollment_list' %}">Go to enrollment</a>
         </div>
-        <a href="{% url 'enrollments:enrollment_list' %}">Go to enrollment</a>
       </div>
     </div>
 
@@ -69,46 +71,22 @@
       <div class="left">
         <!-- teacher's table with profile and name -->
         <h5>Instructor List</h5>
-
-        <div class="instructor-list">
-
           
+        <ol class="list-group list-group-numbered">
           {% for instructor in instructors %}
-            <div class="instructor-info">
+            <li class="list-group-item d-flex justify-content-between align-items-start">
               <div>
                 <img class="rounded-circle border" style="width: 40px;" src="/media/images/instructor-profile.jpg" alt="profile">
               </div>
 
-              <div>
-                <span class="fw-semibold">{{instructor.name}}</span>
-                <span>Courses: {{instructor.courses.count}}</span>
+              <div class="ms-2 me-auto">
+                <div class="fw-bold">{{instructor.name}}</div>
+                courses: {{instructor.courses.count}}
               </div>
-            </div>
+            </li>
           {% endfor %}
-            
-          <!-- <div class="instructor-info">
-            <div>
-              <img class="rounded-circle border" style="width: 40px;" src="/media/images/instructor-profile.jpg" alt="profile">
-            </div>
+        </ol>
 
-            <div>
-              <span>Name</span>
-              <span>React 18</span>
-            </div>
-          </div>
-          
-          <div class="instructor-info">
-            <div>
-              <img class="rounded-circle border" style="width: 40px;" src="/media/images/instructor-profile.jpg" alt="profile">
-            </div>
-
-            <div>
-              <span>Name</span>
-              <span>React 18</span>
-            </div>
-          </div> -->
-
-        </div>
       </div>
 
       <!-- right -->
@@ -116,8 +94,8 @@
         <!-- student's table with student and course -->
         <h5>Student List</h5>
 
-        <div>
-          <table class="table">
+        <div class="overflow-auto">
+          <table class="table" style="min-width: 500px;">
 
             <thead>
               <tr>
