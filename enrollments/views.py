@@ -80,7 +80,7 @@ def enrollment_delete(request, pk):
 
 @login_required(login_url='users:login')
 @allow_users(allow_roles=['admin', 'student'])
-def enrollment_create_by_employee(request, pk): # pk of course
+def enrollment_create_in_course(request, pk): # pk of course
   course = Course.objects.filter(pk=pk).first()
   login_user = request.user.groups.first().name
 
@@ -94,7 +94,7 @@ def enrollment_create_by_employee(request, pk): # pk of course
       if form.is_valid():
         if Enrollment.objects.filter(course=course, student=student).exists():
           messages.error(request, "The enrollment with this student and course already exists.")
-          return render(request, 'enrollments/create_update_by_employee.html', {'form':form, 'course': course, 'student':student})
+          return render(request, 'enrollments/create_update_in_course.html', {'form':form, 'course': course, 'student':student})
         
         enrollment = form.save(commit=False)
         enrollment.course = course
@@ -103,7 +103,7 @@ def enrollment_create_by_employee(request, pk): # pk of course
     else:
       form = EnrollmentFormInCourse()
     
-    return render(request, 'enrollments/create_update_by_employee.html', {'form':form, 'course':course})
+    return render(request, 'enrollments/create_update_in_course.html', {'form':form, 'course':course})
   
   else:
     login_id = request.user.student.id
@@ -115,7 +115,7 @@ def enrollment_create_by_employee(request, pk): # pk of course
 
       if form.is_valid():
         if Enrollment.objects.filter(course=course, student=student).exists():
-          messages.error(request, "You've enrolled in this course once")
+          messages.error(request, "Enrolled already")
           return redirect('courses:course_detail', pk=course.id)
 
         print('student enrolls')

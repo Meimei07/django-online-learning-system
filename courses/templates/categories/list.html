@@ -6,76 +6,78 @@
 
 {%block content %}
 
-  {% comment %} Category {% endcomment %}
-  <div class="d-flex align-items-center">
-    <div class="flex-grow-1 fw-bold fs-2 mb-4">Category List</div>
-    <a href="{% url 'courses:category_create' %}" class="btn btn-primary">Add category</a>
+  <div class="px-4 py-3">
+    <!-- Category -->
+    <div class="d-flex align-items-center">
+      <div class="flex-grow-1 fw-bold fs-2 mb-4">Category List</div>
+      <a href="{% url 'courses:category_create' %}" class="btn btn-primary">Add category</a>
+    </div>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Name</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for category in categories %}
+        <tr>
+          <th scope="row">{{category.id}}</th>
+          <td>{{category.name}}</td>
+          <td class="btn-container">
+            <a
+              href="{% url 'courses:category_update' category.id %}"
+              class="btn btn-outline-primary btn-sm"
+              >Update</a
+            >
+            <a
+              href="{% url 'courses:category_delete' category.id %}"
+              class="btn btn-outline-danger btn-sm"
+              >Delete</a
+            >
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <!-- Tag -->
+    <div class="d-flex align-items-center">
+      <div class="flex-grow-1 fw-bold fs-2 mb-4">Tag List</div>
+      <a href="{% url 'courses:tag_create' %}" class="btn btn-primary">Add tag</a>
+    </div>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Name</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for tag in tags %}
+        <tr>
+          <th scope="row">{{tag.id}}</th>
+          <td>{{tag.name}}</td>
+          <td class="btn-container">
+            <a
+              href="{% url 'courses:tag_update' tag.id %}"
+              class="btn btn-outline-primary btn-sm"
+              >Update</a
+            >
+            <a
+              href="{% url 'courses:tag_delete' tag.id %}"
+              class="btn btn-outline-danger btn-sm"
+              >Delete</a
+            >
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
   </div>
-
-  <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">ID</th>
-        <th scope="col">Name</th>
-        <th scope="col">Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for category in categories %}
-      <tr>
-        <th scope="row">{{category.id}}</th>
-        <td>{{category.name}}</td>
-        <td class="btn-container">
-          <a
-            href="{% url 'courses:category_update' category.id %}"
-            class="btn btn-outline-primary btn-sm"
-            >Update</a
-          >
-          <a
-            href="{% url 'courses:category_delete' category.id %}"
-            class="btn btn-outline-danger btn-sm"
-            >Delete</a
-          >
-        </td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-
-  {% comment %} Tag {% endcomment %}
-  <div class="d-flex align-items-center">
-    <div class="flex-grow-1 fw-bold fs-2 mb-4">Tag List</div>
-    <a href="{% url 'courses:tag_create' %}" class="btn btn-primary">Add tag</a>
-  </div>
-
-  <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">ID</th>
-        <th scope="col">Name</th>
-        <th scope="col">Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for tag in tags %}
-      <tr>
-        <th scope="row">{{tag.id}}</th>
-        <td>{{tag.name}}</td>
-        <td class="btn-container">
-          <a
-            href="{% url 'courses:tag_update' tag.id %}"
-            class="btn btn-outline-primary btn-sm"
-            >Update</a
-          >
-          <a
-            href="{% url 'courses:tag_delete' tag.id %}"
-            class="btn btn-outline-danger btn-sm"
-            >Delete</a
-          >
-        </td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
 
 {% endblock content %}

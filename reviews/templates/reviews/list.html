@@ -1,0 +1,159 @@
+{% extends 'base.html' %} 
+
+{% block title %} 
+  Review 
+{% endblock title %} 
+
+{%block content %}
+
+  <div class="px-4 py-3">
+    <div>
+      <div class="fw-bold fs-2 mb-4">Review List</div>
+    </div>
+
+    <p class="d-inline-flex gap-1">
+      <a class="btn btn-outline-dark btn-sm" data-bs-toggle="collapse"  href="#filter-button-container" role="button" aria-expanded="
+      {% if selected_category_id or selected_tag_id or selected_instructor_id %}
+        true
+      {% else %}
+        false
+      {% endif %}
+        " aria-controls="filter-button-container">
+        <i class="bi bi-filter"></i>
+        Filter
+      </a>
+    </p>
+
+    <!-- filter -->
+    <div class="collapse
+      {% if selected_student_id or selected_course_id or selected_star %}
+        show
+      {% endif %}
+      " id="filter-button-container">
+      
+      <!-- by student -->
+      <span class="fw-semibold">Student</span>
+      <div class="scroll-container">
+        <form method="get" class="m-0 p-0">
+          <input type="hidden" name="student" value="" />
+          <button type="submit" class=" 
+            {% if not selected_student_id %}
+              active
+            {% endif %}">
+          All</button>
+        </form>
+
+        {% for student in students %}
+          
+          <form method="get" class="m-0 p-0">
+            <input type="hidden" name="student" value="{{student.id}}" />
+            
+            {% if selected_course_id %}
+              
+              <input type="hidden" name="course" value="{{selected_course_id}}" />            
+                
+            {% endif %}
+            
+            {% if selected_star %}
+              <input type="hidden" name="star" value="{{selected_star}}" />
+            {% endif %}
+                        
+            <button type="submit" class="
+              {% if student.id == selected_student_id %}
+                active
+              {% endif %}
+              ">{{student.name}}</button>
+          </form>
+
+        {% endfor %}
+      </div>     
+
+      <!-- by courses -->
+      <span class="fw-semibold">Course</span>
+      <div class="scroll-container">
+        
+        {% for course in courses %}
+          
+          <form method="get" class="p-0 m-0">
+
+            {% if course.id != selected_course_id %}
+              <input type="hidden" name="course" value="{{course.id}}" />
+            {% endif %}
+
+            {% if selected_student_id %}
+              <input type="hidden" name="student" value="{{selected_student_id}}" />
+            {% endif %}
+
+            {% if selected_star %}
+              <input type="hidden" name="star" value="{{selected_star}}" />
+            {% endif %}
+
+            <button type="submit" class=" filter-btn 
+              {% if course.id == selected_course_id %}          
+                active              
+              {% endif %}
+              ">{{course.name}}</button>
+          </form>
+
+        {% endfor %}
+        
+      </div>
+
+      <!-- by star -->
+      <span class="fw-semibold">Star:</span>
+      <div class="scroll-container">
+
+        {% for star in stars %}
+
+          <form method="get" class="m-0 p-0">
+            <input type="hidden" name="star" value="{{star}}" />
+
+            {% if selected_student_id %}
+              <input type="hidden" name="student" value="{{selected_student_id}}" />
+            {% endif %}
+            
+            {% if selected_course_id %} 
+                <input type="hidden" name="course" value="{{selected_course_id}}" />
+            {% endif %}
+
+            <button type="submit" class=" 
+              {% if star == selected_star %}
+                active
+              {% endif %}">{{star}} <i class="fa-solid fa-star text-warning"></i>
+            </button>
+          </form>
+
+        {% endfor %}
+      </div>
+        
+    </div>
+
+    <div class="overflow-auto">
+      <table class="table" style="min-width: 1000px">
+        <thead>
+          <tr>
+            <th scope="col"></th>
+            <th scope="col">Student</th>
+            <th scope="col" style="width: 40%;">Course</th>
+            <th scope="col">Star</th>
+            <th scope="col">Comment</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for review in reviews %}
+          <tr>
+            <th scope="row">
+              <img class="rounded-circle border" style="width: 30px;" src="/media/images/review-profile.webp" alt="profile">
+            </th>
+            <td>{{review.student.name}}</td>
+            <td>{{review.course.name}}</td>
+            <td>{{review.star}}</td>
+            <td>{{review.comment}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
+{% endblock content %}

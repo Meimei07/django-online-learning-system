@@ -39,7 +39,7 @@
               class="list-group-item list-group-item-action py-2 ripple"
               aria-current="true"
             >
-              <i class="fas fa-tachometer-alt fa-fw me-3"></i
+              <i class="fas fa-tachometer-alt me-3"></i
               ><span>Main dashboard</span>
             </a>
             
@@ -79,6 +79,7 @@
               
             {% endif %}
               
+            <!-- course -->
             <a
               href="{% url 'courses:course_list' %}"
               class="list-group-item list-group-item-action py-2 ripple"
@@ -86,6 +87,7 @@
               <i class="fa-solid fa-book me-3"></i><span>Course</span>
             </a>
             
+            <!-- enrollment -->
             {% if request.user.groups.all.0.name == 'admin' %}
             
               <a
@@ -97,6 +99,17 @@
               
             {% endif %}
               
+            <!-- review -->
+            {% if request.user.groups.all.0.name == 'admin' %}
+          
+              <a
+                href="{% url 'reviews:review_list' %}"
+                class="list-group-item list-group-item-action py-2 ripple"
+              >
+                <i class="fa-solid fa-star me-3"></i><span>Review</span>
+              </a>
+              
+            {% endif %}
           </div>
         </div>
       </nav>

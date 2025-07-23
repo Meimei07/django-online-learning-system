@@ -1,6 +1,7 @@
 body {
   background-color: #fbfbfb;
 }
+
 @media (min-width: 991.98px) {
   main {
     padding-left: 240px;
@@ -173,10 +174,6 @@ form label {
     @media (min-width: 770px) {
       font-size: 15px;
     }
-  }
-
-  & > div:nth-child(1) {
-    white-space: nowrap;
   }
 }
 

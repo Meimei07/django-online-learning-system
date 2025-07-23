@@ -30,6 +30,7 @@ def dashboard_view(request):
 
   return render(request, 'dashboard/home.html', context)
 
+@login_required(login_url='users:login')
 @allow_users(allow_roles=['instructor'])
 def instructor_dashboard_view(request):
   login_id = request.user.instructor.id
@@ -55,6 +56,7 @@ def instructor_dashboard_view(request):
 
   return render(request, 'dashboard/instructor_dashboard.html', context)
 
+@login_required(login_url='users:login')
 @allow_users(allow_roles=['student'])
 def student_dashboard_view(request):
   login_id = request.user.student.id

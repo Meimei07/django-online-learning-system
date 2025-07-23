@@ -9,10 +9,10 @@
     <div class="d-inline-block py-2 pe-3"><i class="bi bi-arrow-left"></i></div>
   </a>
 
-  {% comment %} top {% endcomment %}
+  <!-- top -->
   <div class="top">
     <div class="flex-grow-1">
-      {% comment %} Instructor info {% endcomment %}
+      <!-- Instructor info - Rating -->
       <div class="d-flex gap-2 align-items-center">
         <img
           src="/media/images/instructor-profile.jpg"
@@ -22,22 +22,31 @@
         />
         <div>{{course.instructor.name}}</div>
 
-        <div class="ps-5 text-body-tertiary">
-          Published: {{course.published_date}}
+        <!-- Average star rating -->
+        <div class="ps-5 text-body-tertiary">       
+          
+          {% if course.reviews.all %}
+            {{average_star_rating}}
+            <i class="fa-solid fa-star text-warning"></i>
+            ({{course.reviews.count}} rating{% if course.reviews.count > 1 %}s{% endif %})
+          {% else %}
+            No rating <i class="fa-solid fa-star text-body-tertiary"></i>
+          {% endif %}     
+            
         </div>
       </div>
 
-      {% comment %} Title {% endcomment %}
+      <!-- Title -->
       <div class="title fw-semibold">{{course.name}}</div>
 
       <div class="d-flex gap-3">
-        {% comment %} Category {% endcomment %}
+        <!-- Category -->
         <div class="d-flex align-items-center gap-1">
           <i class="bi bi-collection"></i>
           <div class="category">{{course.category.name}}</div>
         </div>
 
-        {% comment %} Total duration {% endcomment %}
+        <!-- Total duration -->
         <div class="d-flex align-items-center gap-1">
           <i class="bi bi-alarm pb-1"></i>
           <div class="total-duration">
@@ -49,23 +58,29 @@
           </div>
         </div>
 
-        {% comment %} Total lessons {% endcomment %}
+        <!-- Total lessons -->
         <div class="d-flex align-items-center gap-1 text-nowrap">
           <i class="bi bi-journals pb-1"></i>
           <div class="total-lessons">{{total_lessons}} lesson{% if total_lessons > 1 %}s{% endif %}            
             </div>
         </div>
 
-        {% comment %} Price {% endcomment %}
+        <!-- Price -->
         <div class="d-flex align-items-center gap-1">
           <i class="bi bi-cash-coin"></i>
           <div class="price">${{course.price}}</div>
         </div>
+        
+        <!-- Published date -->
+        <div class="d-flex align-items-center gap-1 text-nowrap">
+          <i class="bi bi-calendar-event"></i>
+          <div class="price">{{course.published_date}}</div>
+        </div>
       </div>
 
-      {% comment %} Tags {% endcomment %}
+       <!-- Tags -->
       <div>
-        {% comment %} All tags {% endcomment %}
+        <!-- All tags -->
         
         {% for course_tag in course.tags.all %}
           <div class="tag">
@@ -84,7 +99,7 @@
           </div>
         {% endfor %}
 
-        {% comment %} Add tag form {% endcomment %}
+        <!-- Add tag form -->
         {% if request.user.groups.all.0.name == 'admin' or request.user.groups.all.0.name == 'instructor' %}
 
           <form method="post" class="form-container">
@@ -102,21 +117,44 @@
     </div>
 
     <div class="btn-container">
-      
-      <!-- enroll students -->
+      <!-- error message -->
+      {% if messages %}
+        {% for message in messages %}
+          <div class="btn btn-danger btn-sm"><i class="fa-solid fa-circle-exclamation"></i> {{ message }}</div>
+        {% endfor %}
+      {% endif %}
+
+      <!-- rating button -->    
+      <!-- if student login, can rate -->
+      {% if request.user.groups.all.0.name == 'student' %}     
+        {% if student.enrollments.all %}
+          {% for enrollment in student.enrollments.all %}
+            <!-- student can rate only if it's the course they enroll in -->
+            {% if enrollment.course.id == course.id %}
+              
+              <a 
+                href="{% url 'reviews:review_create' course.id %}"
+                class="btn btn-outline-warning btn-sm"
+                >Rate
+              </a>
+
+            {% endif %}
+          {% endfor %}         
+        {% endif %}         
+      {% endif %}
+        
+
+      <!-- enrolled students list -->
       {% if request.user.groups.all.0.name == 'admin' or request.user.groups.all.0.name == 'instructor' %}
         
         {% if course.enrollments.all  %}
           <select class="border border-1 border-dark rounded-1 p-1">
-            <option>Enrolled Students</option>
+            <option>Enrollement</option>
 
             {% for enrollment in course.enrollments.all %}
               <option>{{enrollment.student.name}}</option>
             {% endfor %}
           </select>
-              
-        {% else %}
-          <div class="border border-1 border-dark rounded-1 py-1 px-2"><i class="fa-solid fa-circle-exclamation"></i> No Enrollement</div>
         {% endif %}
 
       {% endif %}
@@ -125,20 +163,14 @@
       {% if request.user.groups.all.0.name == 'admin' %}
         
         <a 
-          href="{% url 'enrollments:enrollment_create_by_employee' course.id %}"
+          href="{% url 'enrollments:enrollment_create_in_course' course.id %}"
           class="btn btn-outline-success btn-sm"
           >Enroll
         </a>
 
       {% elif request.user.groups.all.0.name == 'student' %}
 
-        {% if messages %}
-          {% for message in messages %}
-            <div class="btn btn-danger btn-sm"><i class="fa-solid fa-circle-exclamation"></i> {{ message }}</div>
-          {% endfor %}
-        {% endif %}  
-
-        <form method="post" action="{% url 'enrollments:enrollment_create_by_employee' course.id %}" class="m-0 p-0">
+        <form method="post" action="{% url 'enrollments:enrollment_create_in_course' course.id %}" class="m-0 p-0">
           {% csrf_token %}
 
           <button type="submit" name="add-enrollment" 
@@ -165,15 +197,15 @@
         
       {% endif %}
         
-      
     </div>
+    
   </div>
 
   <hr />
 
-  {% comment %} bottom {% endcomment %}
+  <!-- bottom -->
   <div class="bottom" style="gap: 40px">
-    {% comment %} left {% endcomment %}
+    <!-- left -->
     <div style="flex: 1.5">
 
       <!-- Add lesson button -->
@@ -251,7 +283,7 @@
 
     </div>
 
-    {% comment %} right {% endcomment %}
+    <!-- right -->
     <div style="flex: 1">
       <div
         class="border border-dark px-2 py-1 d-inline rounded-1"

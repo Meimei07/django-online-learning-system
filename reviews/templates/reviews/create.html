@@ -1,0 +1,11 @@
+{% extends 'base.html' %} 
+
+{% block title %} 
+  Review 
+{% endblock title %} 
+
+{% block content %}
+
+  {% include 'create_form.html' with Model='Review' form=form the_url='courses:course_detail' id=course.id %}
+
+{% endblock content %}

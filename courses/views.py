@@ -5,7 +5,7 @@ from django.db.models import Sum
 
 from .models import Category, Tag, Course, Lesson, CourseTag
 from .forms import CategoryForm, TagForm ,CourseForm, CourseFormByInstructor, LessonForm, CourseTagForm
-from users.models import Instructor
+from users.models import Instructor, Student
 from users.decorators import allow_users
 
 # Create your views here.
@@ -183,6 +183,10 @@ def Course_Detail(request, pk):
   course = Course.objects.filter(pk=pk).first()
   form = CourseTagForm(initial={'course':course})
   order_lessons = course.lessons.all().order_by('order')
+  student = None
+
+  if request.user.groups.all()[0].name == 'student':
+    student = Student.objects.get(pk=request.user.student.id)
 
   total_duration = course.lessons.aggregate(total=Sum('duration'))['total'] 
   total_lessons = course.lessons.count()
@@ -196,13 +200,37 @@ def Course_Detail(request, pk):
       course_tag.course = course
       course_tag.save()
       return redirect('courses:course_detail', pk=course.id)
+    
+  # calculate average star rating
+  average_star_rating = 0
+  total_1_star = 0
+  total_2_star = 0
+  total_3_star = 0
+  total_4_star = 0
+  total_5_star = 0
+  total_stars = 0
+
+  if course.reviews.all():
+    for review in course.reviews.all():
+      match review.star:
+        case '1': total_1_star += 1
+        case '2': total_2_star += 1
+        case '3': total_3_star += 1
+        case '4': total_4_star += 1
+        case '5': total_5_star += 1
+
+      total_stars = total_1_star + total_2_star + total_3_star + total_4_star + total_5_star
+
+    average_star_rating = ((1*total_1_star) + (2*total_2_star) + (3*total_3_star) + (4*total_4_star) + (5*total_5_star)) / total_stars
 
   context = {
     'course':course, 
     'lessons': order_lessons,
+    'student': student if student else None,
     'form':form, 
     'total_duration':total_duration,
     'total_lessons': total_lessons,
+    'average_star_rating': average_star_rating,
   }
 
   return render(request, 'courses/detail.html', context)
