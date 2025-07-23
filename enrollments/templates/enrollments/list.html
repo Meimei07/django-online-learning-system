@@ -11,6 +11,145 @@
     <a href="{% url 'enrollments:enrollment_create' %}" class="btn btn-primary">Add enrollment</a>
   </div>
 
+  <p class="d-inline-flex gap-1">
+    <a class="btn btn-outline-dark btn-sm" data-bs-toggle="collapse"  href="#filter-button-container" role="button" aria-expanded="
+    {% if selected_category_id or selected_tag_id or selected_instructor_id %}
+      true
+    {% else %}
+      false
+    {% endif %}
+      " aria-controls="filter-button-container">
+      <i class="bi bi-filter"></i>
+      Filter
+    </a>
+  </p>
+
+  <!-- filter -->
+  <div class="collapse
+    {% if selected_student_id or selected_courses or selected_instructor_id %}
+      show
+    {% endif %}
+    " id="filter-button-container">
+    
+    <!-- by student -->
+    <span class="fw-semibold">Student</span>
+    <div class="scroll-container">
+      <form method="get" class="m-0 p-0">
+        <input type="hidden" name="student" value="" />
+        <button type="submit" class=" 
+          {% if not selected_student_id %}
+            active
+          {% endif %}">
+        All</button>
+      </form>
+
+      {% for student in students %}
+        
+        <form method="get" class="m-0 p-0">
+          <input type="hidden" name="student" value="{{student.id}}" />
+          
+          {% if selected_courses %}
+            
+            {% for selected_course in selected_courses %}
+              <input type="hidden" name="course" value="{{selected_course}}" />            
+            {% endfor %}
+              
+          {% endif %}
+          
+          {% if selected_instructor_id %}
+            <input type="hidden" name="instructor" value="{{selected_instructor_id}}" />
+          {% endif %}
+                      
+          <button type="submit" class="
+            {% if student.id == selected_student_id %}
+              active
+            {% endif %}
+            ">{{student.name}}</button>
+        </form>
+
+      {% endfor %}
+    </div>     
+
+    <!-- by courses -->
+    <span class="fw-semibold">Course</span>
+    <div class="scroll-container">
+      
+      {% for course in courses %}
+        
+        <form method="get" class="p-0 m-0">
+          
+          {% if not course.id in selected_courses %}
+            <input type="hidden" name="course" value="{{course.id}}" />
+          {% endif %}
+            
+          {% for selected_course in selected_courses %}
+              
+            {% if course.id != selected_course %}
+              <input type="hidden" name="course" value="{{selected_course}}" />
+            {% endif %}
+              
+          {% endfor %}   
+
+          {% if selected_student_id %}
+            <input type="hidden" name="student" value="{{selected_student_id}}" />
+          {% endif %}
+
+          {% if selected_instructor_id %}
+            <input type="hidden" name="instructor" value="{{selected_instructor_id}}" />
+          {% endif %}
+
+          <button type="submit" class=" filter-btn 
+            {% if selected_courses %}
+              
+              {% for selected_course in selected_courses %}
+                
+                {% if course.id == selected_course %}
+                  active
+                {% endif %}
+                  
+              {% endfor %}
+                
+            {% endif %}
+            ">{{course.name}}</button>
+        </form>
+
+      {% endfor %}
+      
+    </div>
+
+    <!-- by instructor -->
+    <span class="fw-semibold">Instructor:</span>
+    <div class="scroll-container">
+
+      {% for instructor in instructors %}
+
+        <form method="get" class="m-0 p-0">
+          <input type="hidden" name="instructor" value="{{instructor.id}}" />
+
+          {% if selected_student_id %}
+            <input type="hidden" name="student" value="{{selected_student_id}}" />
+          {% endif %}
+          
+          {% if selected_courses %} 
+            
+            {% for selected_course in selected_courses %}
+              <input type="hidden" name="course" value="{{selected_course}}" />
+            {% endfor %}
+              
+          {% endif %}
+
+          <button type="submit" class="filter-btn 
+            {% if selected_instructor_id == instructor.id %}
+              active
+            {% endif %}">{{instructor.name}}
+          </button>
+        </form>
+
+      {% endfor %}
+    </div>
+      
+  </div>
+
   <div class="overflow-auto">
     <table class="table" style="min-width: 1000px">
       <thead>

@@ -5,7 +5,7 @@ from django.contrib import messages
 from .models import Enrollment
 from courses.models import Course
 from .forms import AddEnrollmentForm, UpdateEnrollmentForm, EnrollmentFormInCourse, EnrollmentFormByStudent
-from users.models import Student
+from users.models import Student, Instructor
 from users.decorators import allow_users
 
 # Create your views here.
@@ -14,7 +14,35 @@ from users.decorators import allow_users
 @allow_users(allow_roles=['admin', 'student'])
 def enrollment_list(request):
   enrollments = Enrollment.objects.select_related('student', 'course').all()
-  return render(request, 'enrollments/list.html', {'enrollments':enrollments})
+  students = Student.objects.all()
+  courses = Course.objects.all()
+  instructors = Instructor.objects.all()
+
+  selected_student_id = request.GET.get('student')
+  if selected_student_id:
+    enrollments = enrollments.filter(student_id=selected_student_id)
+
+  selected_courses = request.GET.getlist('course')
+  if selected_courses:
+    for selected_course in selected_courses:
+      enrollments = enrollments.filter(course_id=selected_course)
+
+  selected_instructor_id = request.GET.get('instructor')
+  if selected_instructor_id:
+    enrollments = enrollments.filter(course__instructor_id=selected_instructor_id)
+
+  context = {
+    'enrollments':enrollments,
+    'students': students,
+    'courses': courses,
+    'instructors': instructors,
+    'selected_student_id': int(selected_student_id) if selected_student_id else None,
+    'selected_courses': [int(t) for t in selected_courses],
+    'selected_instructor_id': int(selected_instructor_id) if selected_instructor_id
+     else None,
+  }
+
+  return render(request, 'enrollments/list.html', context)
 
 @login_required(login_url='users:login')
 @allow_users(allow_roles=['admin'])
