@@ -15,11 +15,11 @@
   
   {% if form.instance.pk %}
 
-    {% include 'form.html' with Model='Course' the_url='courses:course_detail' id=course.id enctype='enctype="multipart/form-data"' %}
+    {% include 'create_form.html' with Model='Course' form=form the_url='courses:course_detail' id=course.id enctype='enctype="multipart/form-data"' %}
     
   {% else %}
     
-    {% include 'form.html' with Model='Course' the_url='courses:course_list' enctype='enctype="multipart/form-data"' %}
+    {% include 'create_form.html' with Model='Course' form=form  the_url='courses:course_list' enctype='enctype="multipart/form-data"' %}
     
   {% endif %} 
 

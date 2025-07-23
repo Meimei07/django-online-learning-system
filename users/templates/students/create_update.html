@@ -12,6 +12,14 @@
 
 {% block content %}
 
-  {% include 'form.html' with Model='Student' the_url='users:student_list' %}
+  {% if form.instance.pk %}
+    
+    {% include 'create_form.html' with Model='Student' form=student_form the_url='users:student_list' %}
+    
+  {% else %}
+    
+    {% include 'create_form.html' with Model='Student' form=student_form user_form=user_form the_url='users:student_list' %}
+
+  {% endif %}
 
 {% endblock content %}

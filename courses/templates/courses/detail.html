@@ -101,22 +101,27 @@
       </div>
     </div>
 
-    {% comment %} Enroll student, update/delete course {% endcomment %}
     <div class="btn-container">
       
-      {% if course.enrollments.all  %}
-        <select class="border border-1 border-dark rounded-1 p-1">
-          <option>Enrolled Students</option>
+      <!-- enroll students -->
+      {% if request.user.groups.all.0.name == 'admin' or request.user.groups.all.0.name == 'instructor' %}
+        
+        {% if course.enrollments.all  %}
+          <select class="border border-1 border-dark rounded-1 p-1">
+            <option>Enrolled Students</option>
 
-          {% for enrollment in course.enrollments.all %}
-            <option>{{enrollment.student.name}}</option>
-          {% endfor %}
-        </select>
-            
-      {% else %}
-        <div class="border border-1 border-dark rounded-1 py-1 px-2"><i class="fa-solid fa-circle-exclamation"></i> No Enrollement</div>
+            {% for enrollment in course.enrollments.all %}
+              <option>{{enrollment.student.name}}</option>
+            {% endfor %}
+          </select>
+              
+        {% else %}
+          <div class="border border-1 border-dark rounded-1 py-1 px-2"><i class="fa-solid fa-circle-exclamation"></i> No Enrollement</div>
+        {% endif %}
+
       {% endif %}
              
+      <!-- enroll button -->
       {% if request.user.groups.all.0.name == 'admin' %}
         
         <a 
@@ -144,6 +149,7 @@
 
       {% endif %}  
       
+      <!-- update/delete button -->
       {% if request.user.groups.all.0.name == 'admin' or request.user.groups.all.0.name == 'instructor' %}
       
         <a

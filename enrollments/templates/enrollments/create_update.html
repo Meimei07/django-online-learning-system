@@ -12,6 +12,6 @@
 
 {% block content %}
 
-  {% include 'form.html' with Model='Enrollment' the_url='enrollments:enrollment_list' %}
+  {% include 'create_form.html' with Model='Enrollment' form=form the_url='enrollments:enrollment_list' %}
 
 {% endblock content %}

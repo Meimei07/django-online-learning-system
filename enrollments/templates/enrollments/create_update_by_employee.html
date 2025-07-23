@@ -12,6 +12,6 @@
 
 {% block content %}
 
-  {% include 'form.html' with messages=messages Model='Enrollment' the_url='courses:course_detail' id=course.id %}
+  {% include 'create_form.html' with messages=messages Model='Enrollment' form=form the_url='courses:course_detail' id=course.id %}
 
 {% endblock content %}

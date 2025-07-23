@@ -13,6 +13,7 @@ class CustomUserForm(UserCreationForm):
     super().__init__(*args, **kwargs)
     # Remove password2 field
     self.fields.pop('password2', None)
+    self.fields['password1'].widget = forms.TextInput(attrs={'type':'text'})
 
 class EmployeeForm(forms.ModelForm):
   class Meta:

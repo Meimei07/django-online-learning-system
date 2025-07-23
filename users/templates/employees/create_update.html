@@ -12,6 +12,14 @@
 
 {% block content %}
 
-  {% include 'form.html' with Model='Employee' the_url='users:employee_list' %}
+  {% if form.instance.pk %}
+    
+    {% include 'create_form.html' with Model='Employee' form=employee_form the_url='users:employee_list' %}
+    
+  {% else %}
+    
+    {% include 'create_form.html' with Model='Employee' form=employee_form user_form=user_form the_url='users:employee_list' %}
+
+  {% endif %}
 
 {% endblock content %}

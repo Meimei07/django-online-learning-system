@@ -12,6 +12,6 @@
 
 {% block content %}
 
-  {% include 'form.html' with messages=messages Model='Lesson' the_url='courses:course_detail' id=course.id enctype='enctype="multipart/form-data"' %}
+  {% include 'create_form.html' with messages=messages Model='Lesson' form=form the_url='courses:course_detail' id=course.id enctype='enctype="multipart/form-data"' %}
 
 {% endblock content %}

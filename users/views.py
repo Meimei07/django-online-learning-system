@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import Group
 from django.contrib.auth import authenticate, login, logout 
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -43,33 +44,47 @@ def List(request):
 @login_required(login_url='users:login')
 @allow_users(allow_roles=['admin'])
 def Create(request):
-  form = EmployeeForm(request.POST or None)
+  if request.method == 'POST':
+    employee_form = EmployeeForm(request.POST or None)
+    user_form = CustomUserForm(request.POST or None)
 
-  if form.is_valid():
-    form.save()
-    return redirect('users:employee_list')
+    if employee_form.is_valid() and user_form.is_valid():
+      user = user_form.save()
+
+      group = Group.objects.get(name='admin')
+      user.groups.add(group)
+
+      employee = employee_form.save(commit=False)
+      employee.user = user
+      employee.save()
+      return redirect('users:employee_list')
+  else:
+    employee_form = EmployeeForm()
+    user_form = CustomUserForm()
   
-  return render(request, 'employees/create_update.html', {'form':form})
+  return render(request, 'employees/create_update.html', {'employee_form':employee_form, 'user_form':user_form})
 
 @login_required(login_url='users:login')
 @allow_users(allow_roles=['admin'])
 def Update(request, pk):
   employee = Employee.objects.filter(pk=pk).first()
-  form = EmployeeForm(request.POST or None, instance=employee)
+  employee_form = EmployeeForm(request.POST or None, instance=employee)
 
-  if form.is_valid():
-    form.save()
+  if employee_form.is_valid():
+    employee_form.save()
     return redirect('users:employee_list')
 
-  return render(request, 'employees/create_update.html', {'form':form})
+  return render(request, 'employees/create_update.html', {'employee_form':employee_form})
 
 @login_required(login_url='users:login')
 @allow_users(allow_roles=['admin'])
 def Delete(request, pk):
   employee = Employee.objects.filter(pk=pk).first()
+  user = employee.user
 
   if request.method == 'POST':
     employee.delete()
+    user.delete()
     return redirect('users:employee_list')
   
   return render(request, 'employees/delete.html', {'employee':employee})
@@ -85,33 +100,48 @@ def Instructor_List(request):
 @login_required(login_url='users:login')
 @allow_users(allow_roles=['admin'])
 def Instructor_Create(request):
-  form = InstructorForm(request.POST or None)
+  if request.method == 'POST':
+    instructor_form = InstructorForm(request.POST or None)
+    user_form = CustomUserForm(request.POST or None)
 
-  if form.is_valid():
-    form.save()
-    return redirect('users:instructor_list')
+    if instructor_form.is_valid() and user_form.is_valid():
+      user = user_form.save()
+
+      group = Group.objects.get(name='instructor')
+      user.groups.add(group)
+
+      instructor = instructor_form.save(commit=False)
+      instructor.user = user
+      instructor.save()
+      return redirect('users:instructor_list')
   
-  return render(request, 'instructors/create_update.html', {'form':form})
+  else:
+    instructor_form = InstructorForm()
+    user_form = CustomUserForm()
+  
+  return render(request, 'instructors/create_update.html', {'instructor_form':instructor_form, 'user_form':user_form})
 
 @login_required(login_url='users:login')
 @allow_users(allow_roles=['admin'])
 def Instructor_Update(request, pk):
   instructor = Instructor.objects.filter(pk=pk).first()
-  form = InstructorForm(request.POST or None, instance=instructor)
+  instructor_form = InstructorForm(request.POST or None, instance=instructor)
 
-  if form.is_valid():
-    form.save()
+  if instructor_form.is_valid():
+    instructor_form.save()
     return redirect('users:instructor_list')
 
-  return render(request, 'instructors/create_update.html', {'form':form})
+  return render(request, 'instructors/create_update.html', {'instructor_form':instructor_form})
 
 @login_required(login_url='users:login')
 @allow_users(allow_roles=['admin'])
 def Instructor_Delete(request, pk):
   instructor = Instructor.objects.filter(pk=pk).first()
+  user = instructor.user
 
   if request.method == 'POST':
     instructor.delete()
+    user.delete()
     return redirect('users:instructor_list')
   
   return render(request, 'instructors/delete.html', {'instructor':instructor})
@@ -133,33 +163,48 @@ def Student_List(request):
 @login_required(login_url='users:login')
 @allow_users(allow_roles=['admin'])
 def Student_Create(request):
-  form = StudentForm(request.POST or None)
+  if request.method == 'POST':
+    student_form = StudentForm(request.POST or None)
+    user_form = CustomUserForm(request.POST or None)
 
-  if form.is_valid():
-    form.save()
-    return redirect('users:student_list')
+    if student_form.is_valid() and user_form.is_valid():
+      user = user_form.save()
+
+      group = Group.objects.get(name='student')
+      user.groups.add(group)
+
+      student = student_form.save(commit=False)
+      student.user = user
+      student.save()
+      return redirect('users:student_list')
+    
+  else:
+    student_form = StudentForm()
+    user_form = CustomUserForm()
   
-  return render(request, 'students/create_update.html', {'form':form})
+  return render(request, 'students/create_update.html', {'student_form':student_form, 'user_form':user_form})
 
 @login_required(login_url='users:login')
 @allow_users(allow_roles=['admin'])
 def Student_Update(request, pk):
   student = Student.objects.filter(pk=pk).first()
-  form = StudentForm(request.POST or None, instance=student)
+  student_form = StudentForm(request.POST or None, instance=student)
 
-  if form.is_valid():
-    form.save()
+  if student_form.is_valid():
+    student_form.save()
     return redirect('users:student_list')
 
-  return render(request, 'students/create_update.html', {'form':form})
+  return render(request, 'students/create_update.html', {'student_form':student_form})
 
 @login_required(login_url='users:login')
 @allow_users(allow_roles=['admin'])
 def Student_Delete(request, pk):
   student = Student.objects.filter(pk=pk).first()
+  user = student.user
 
   if request.method == 'POST':
     student.delete()
+    user.delete()
     return redirect('users:student_list')
   
   return render(request, 'students/delete.html', {'student':student})
