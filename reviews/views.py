@@ -6,7 +6,7 @@ from .forms import ReviewForm
 
 from courses.models import Course
 from users.models import Student
-from users.decorators import admin_only
+from users.decorators import admin_only, allow_users
 
 # Create your views here.
 
@@ -43,7 +43,7 @@ def review_list(request):
   return render(request, 'reviews/list.html', context)
 
 @login_required(login_url='users:login')
-@admin_only
+@allow_users(allow_roles=['student'])
 def review_create(request, pk): # pk of course
   login_id = request.user.student.id
   

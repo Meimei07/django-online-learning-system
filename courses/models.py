@@ -23,6 +23,24 @@ class Course(models.Model):
   image = models.ImageField(blank=True, null=True, upload_to='images')
   published_date = models.DateField(auto_now_add=True)
 
+  def save(self, *args, **kwargs):
+    try:
+      old = Course.objects.get(pk=self.pk)
+      
+      if old.image and old.image != self.image:
+          old.image.delete(save=False)
+          
+    except Course.DoesNotExist:
+      pass  # Object is new, no old image to delete
+
+    super().save(*args, **kwargs)
+
+  def delete(self, *args, **kwargs):
+    if self.image:
+      self.image.delete(save=False)
+
+    super().delete(*args, **kwargs)
+
   def __str__(self):
     return self.name
   

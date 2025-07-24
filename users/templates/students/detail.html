@@ -9,17 +9,17 @@
     <div class="d-inline-block py-2 pe-3"><i class="bi bi-arrow-left"></i></div>
   </a>
 
-  {% comment %} top {% endcomment %}
+  <!-- top -->
   <div class="top">
     <div class="flex-grow-1">
-      {% comment %} Student info {% endcomment %}
+      <!-- Student info -->
       <div class="d-flex gap-2 align-items-center">
         <img
           src="
             {% if student.gender == 'Female' %}
-              /media/images/female-student-profile.jpg
+              /media/profiles/female-student-profile.jpg
             {% else %}
-              /media/images/male-student-profile.jpg
+              /media/profiles/male-student-profile.jpg
             {% endif %}
             "
           class="rounded-circle border"
@@ -30,25 +30,25 @@
       </div>
 
       <div class="info-container">
-        {% comment %} Age {% endcomment %}
+        <!-- Age -->
         <div class="d-flex align-items-center gap-1">
           <i class="bi bi-backpack2"></i>
           <div class="category">{{student.age}} y.o</div>
         </div>
         
-        {% comment %} Email {% endcomment %}
+        <!-- Email -->
         <div class="d-flex align-items-center gap-1">
           <i class="bi bi-envelope-at"></i>
           <div class="category">{{student.email}}</div>
         </div>
         
-        {% comment %} Phone {% endcomment %}
+        <!-- Phone -->
         <div class="d-flex align-items-center gap-1">
           <i class="bi bi-telephone"></i>
           <div class="category">{{student.phone}}</div>
         </div>
         
-        {% comment %} Address {% endcomment %}
+        <!-- Address -->
         <div class="d-flex align-items-center gap-1">
           <i class="bi bi-geo"></i>
           <div class="category">{{student.address}}</div>
@@ -59,7 +59,7 @@
 
   <hr />
 
-  {% comment %} bottom {% endcomment %}
+  <!-- bottom -->
   <div class="bottom" style="gap: 40px">
     <div class="card-container">  
 
@@ -107,8 +107,6 @@
         </div>
 
       {% endif %}
-        
-
 
     </div>
   </div>
