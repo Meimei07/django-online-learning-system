@@ -10,7 +10,7 @@ from users.decorators import allow_users
 
 # Create your views here.
 
-@login_required(login_url='users:login')
+@login_required(login_url='login')
 @allow_users(allow_roles=['admin'])
 def enrollment_list(request):
   enrollments = Enrollment.objects.select_related('student', 'course').all()
@@ -45,7 +45,7 @@ def enrollment_list(request):
 
   return render(request, 'enrollments/list.html', context)
 
-@login_required(login_url='users:login')
+@login_required(login_url='login')
 @allow_users(allow_roles=['admin'])
 def enrollment_create(request):
   form = AddEnrollmentForm(request.POST or None)
@@ -56,7 +56,7 @@ def enrollment_create(request):
   
   return render(request, 'enrollments/create_update.html', {'form':form})
 
-@login_required(login_url='users:login')
+@login_required(login_url='login')
 @allow_users(allow_roles=['admin'])
 def enrollment_update(request, pk):
   enrollment = Enrollment.objects.filter(pk=pk).first()
@@ -68,7 +68,7 @@ def enrollment_update(request, pk):
   
   return render(request, 'enrollments/create_update.html', {'form':form})
 
-@login_required(login_url='users:login')
+@login_required(login_url='login')
 @allow_users(allow_roles=['admin'])
 def enrollment_delete(request, pk):
   enrollment = Enrollment.objects.filter(pk=pk).first()
@@ -79,7 +79,7 @@ def enrollment_delete(request, pk):
   
   return render(request, 'enrollments/delete.html', {'enrollment':enrollment})
 
-@login_required(login_url='users:login')
+@login_required(login_url='login')
 @allow_users(allow_roles=['admin', 'student'])
 def enrollment_create_in_course(request, pk): # pk of course
   course = Course.objects.filter(pk=pk).first()

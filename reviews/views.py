@@ -10,7 +10,7 @@ from users.decorators import admin_only, allow_users
 
 # Create your views here.
 
-@login_required(login_url='users:login')
+@login_required(login_url='login')
 @admin_only
 def review_list(request):
   reviews = Review.objects.select_related('student', 'course')
@@ -18,6 +18,7 @@ def review_list(request):
   courses = Course.objects.all()
   stars = ['5', '4', '3', '2', '1']
 
+  # filtering
   selected_student_id = request.GET.get('student')
   if selected_student_id:
     reviews = reviews.filter(student=selected_student_id)
@@ -42,7 +43,7 @@ def review_list(request):
 
   return render(request, 'reviews/list.html', context)
 
-@login_required(login_url='users:login')
+@login_required(login_url='login')
 @allow_users(allow_roles=['student'])
 def review_create(request, pk): # pk of course
   login_id = request.user.student.id

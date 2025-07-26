@@ -12,14 +12,14 @@ from users.decorators import allow_users
 
 #Category
 
-@login_required(login_url='users:login')
+@login_required(login_url='login')
 @allow_users(allow_roles=['admin', 'instructor'])
 def Category_List(request):
   categories = Category.objects.all()
   tags = Tag.objects.all()
   return render(request, 'categories/list.html', {'categories':categories, 'tags':tags})
 
-@login_required(login_url='users:login')
+@login_required(login_url='login')
 @allow_users(allow_roles=['admin', 'instructor'])
 def Category_Create(request):
   form = CategoryForm(request.POST or None)
@@ -30,7 +30,7 @@ def Category_Create(request):
   
   return render(request, 'categories/create_update.html', {'form':form})
 
-@login_required(login_url='users:login')
+@login_required(login_url='login')
 @allow_users(allow_roles=['admin', 'instructor'])
 def Category_Update(request, pk):
   category = Category.objects.filter(pk=pk).first()
@@ -42,7 +42,7 @@ def Category_Update(request, pk):
 
   return render(request, 'categories/create_update.html', {'form':form})
 
-@login_required(login_url='users:login')
+@login_required(login_url='login')
 @allow_users(allow_roles=['admin', 'instructor'])
 def Category_Delete(request, pk):
   category = Category.objects.filter(pk=pk).first()
@@ -54,7 +54,7 @@ def Category_Delete(request, pk):
   return render(request, 'categories/delete.html', {'category':category})
 
 #Course
-@login_required(login_url='users:login')
+@login_required(login_url='login')
 @allow_users(allow_roles=['admin', 'instructor', 'student'])
 def Course_List(request):  
   login_user = request.user.groups.first().name
@@ -96,7 +96,7 @@ def Course_List(request):
 
   return render(request, 'courses/list.html', context)
 
-@login_required(login_url='users:login')
+@login_required(login_url='login')
 @allow_users(allow_roles=['admin', 'instructor'])
 def Course_Create(request):
   login_user = request.user.groups.first().name
@@ -131,7 +131,7 @@ def Course_Create(request):
     
   return render(request, 'courses/create_update.html', {'form':form})
 
-@login_required(login_url='users:login')
+@login_required(login_url='login')
 @allow_users(allow_roles=['admin', 'instructor'])
 def Course_Update(request, pk):
   course = Course.objects.filter(pk=pk).first()
@@ -167,7 +167,7 @@ def Course_Update(request, pk):
 
   return render(request, 'courses/create_update.html', {'form':form, 'course':course})
 
-@login_required(login_url='users:login')
+@login_required(login_url='login')
 @allow_users(allow_roles=['admin', 'instructor'])
 def Course_Delete(request, pk):
   course = Course.objects.filter(pk=pk).first()
@@ -178,7 +178,7 @@ def Course_Delete(request, pk):
   
   return render(request, 'courses/delete.html', {'course':course})
 
-@login_required(login_url='users:login')
+@login_required(login_url='login')
 @allow_users(allow_roles=['admin', 'instructor', 'student'])
 def Course_Detail(request, pk):
   course = Course.objects.filter(pk=pk).first()
@@ -239,7 +239,7 @@ def Course_Detail(request, pk):
 
 #Tag
 
-@login_required(login_url='users:login')
+@login_required(login_url='login')
 @allow_users(allow_roles=['admin', 'instructor'])
 def Tag_Create(request):
   form = TagForm(request.POST or None)
@@ -250,7 +250,7 @@ def Tag_Create(request):
   
   return render(request, 'tags/create_update.html', {'form':form})
 
-@login_required(login_url='users:login')
+@login_required(login_url='login')
 @allow_users(allow_roles=['admin', 'instructor'])
 def Tag_Update(request, pk):
   tag = Tag.objects.filter(pk=pk).first()
@@ -262,7 +262,7 @@ def Tag_Update(request, pk):
 
   return render(request, 'tags/create_update.html', {'form':form})
 
-@login_required(login_url='users:login')
+@login_required(login_url='login')
 @allow_users(allow_roles=['admin', 'instructor'])
 def Tag_Delete(request, pk):
   tag = Tag.objects.filter(pk=pk).first()
@@ -275,7 +275,7 @@ def Tag_Delete(request, pk):
 
 #Lesson
 
-@login_required(login_url='users:login')
+@login_required(login_url='login')
 @allow_users(allow_roles=['admin', 'instructor'])
 def Lesson_Create(request, pk): # pk of course
   course = Course.objects.filter(pk=pk).first()
@@ -299,7 +299,7 @@ def Lesson_Create(request, pk): # pk of course
     
   return render(request, 'lessons/create_update.html', {'form':form, 'course':course})
 
-@login_required(login_url='users:login')
+@login_required(login_url='login')
 @allow_users(allow_roles=['admin', 'instructor'])
 def Lesson_Update(request, pk):
   lesson = Lesson.objects.filter(pk=pk).first()
@@ -315,7 +315,7 @@ def Lesson_Update(request, pk):
     
   return render(request, 'lessons/create_update.html', {'form':form, 'course':lesson.course})
 
-@login_required(login_url='users:login')
+@login_required(login_url='login')
 @allow_users(allow_roles=['admin', 'instructor'])
 def Lesson_Delete(request, pk):
   lesson = Lesson.objects.filter(pk=pk).first()
@@ -328,7 +328,7 @@ def Lesson_Delete(request, pk):
 
 #CourseTag
 
-@login_required(login_url='users:login')
+@login_required(login_url='login')
 @allow_users(allow_roles=['admin', 'instructor'])
 def Course_Tag_Delete(request, pk) :
   course_tag = CourseTag.objects.filter(pk=pk).first()

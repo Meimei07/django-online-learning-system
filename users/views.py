@@ -1,47 +1,22 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import Group
-from django.contrib.auth import authenticate, login, logout 
 from django.contrib.auth.decorators import login_required
-from django.contrib import messages
 
 from .models import Employee, Instructor, Student
 from .forms import EmployeeForm, InstructorForm, StudentForm, CustomUserForm
-from .decorators import unauthenticated_user, allow_users
+from .decorators import allow_users
 
 # Create your views here.
 
-# Login
-
-@unauthenticated_user
-def login_view(request):
-  if request.method == 'POST':
-    username = request.POST.get('username')
-    password = request.POST.get('password')
-    
-    user = authenticate(request, username=username, password=password)
-
-    if user is not None:
-      login(request, user)
-      return redirect('dashboard')
-    else:
-      messages.info(request, 'Username OR Password is incorrect!')
-
-  return render(request, 'users/login.html')
-
-def logout_view(request):
-  logout(request)
-  return redirect('users:login')
-
 #Employee
 
-@login_required(login_url='users:login')
+@login_required(login_url='login')
 @allow_users(allow_roles=['admin'])
 def List(request):
   employees = Employee.objects.all()
   return render(request, 'employees/list.html', {'employees':employees})
 
-@login_required(login_url='users:login')
+@login_required(login_url='login')
 @allow_users(allow_roles=['admin'])
 def Create(request):
   if request.method == 'POST':
@@ -64,7 +39,7 @@ def Create(request):
   
   return render(request, 'employees/create_update.html', {'employee_form':employee_form, 'user_form':user_form})
 
-@login_required(login_url='users:login')
+@login_required(login_url='login')
 @allow_users(allow_roles=['admin'])
 def Update(request, pk):
   employee = Employee.objects.filter(pk=pk).first()
@@ -76,7 +51,7 @@ def Update(request, pk):
 
   return render(request, 'employees/create_update.html', {'employee_form':employee_form})
 
-@login_required(login_url='users:login')
+@login_required(login_url='login')
 @allow_users(allow_roles=['admin'])
 def Delete(request, pk):
   employee = Employee.objects.filter(pk=pk).first()
@@ -91,13 +66,13 @@ def Delete(request, pk):
 
 #Instructor
 
-@login_required(login_url='users:login')
+@login_required(login_url='login')
 @allow_users(allow_roles=['admin'])
 def Instructor_List(request):
   instructors = Instructor.objects.all()
   return render(request, 'instructors/list.html', {'instructors':instructors})
 
-@login_required(login_url='users:login')
+@login_required(login_url='login')
 @allow_users(allow_roles=['admin'])
 def Instructor_Create(request):
   if request.method == 'POST':
@@ -121,7 +96,7 @@ def Instructor_Create(request):
   
   return render(request, 'instructors/create_update.html', {'instructor_form':instructor_form, 'user_form':user_form})
 
-@login_required(login_url='users:login')
+@login_required(login_url='login')
 @allow_users(allow_roles=['admin'])
 def Instructor_Update(request, pk):
   instructor = Instructor.objects.filter(pk=pk).first()
@@ -133,7 +108,7 @@ def Instructor_Update(request, pk):
 
   return render(request, 'instructors/create_update.html', {'instructor_form':instructor_form})
 
-@login_required(login_url='users:login')
+@login_required(login_url='login')
 @allow_users(allow_roles=['admin'])
 def Instructor_Delete(request, pk):
   instructor = Instructor.objects.filter(pk=pk).first()
@@ -146,7 +121,7 @@ def Instructor_Delete(request, pk):
   
   return render(request, 'instructors/delete.html', {'instructor':instructor})
 
-@login_required(login_url='users:login')
+@login_required(login_url='login')
 @allow_users(allow_roles=['admin'])
 def Instructor_Detail(request, pk):
   instructor = Instructor.objects.filter(pk=pk).first()
@@ -154,13 +129,13 @@ def Instructor_Detail(request, pk):
 
 #Student
 
-@login_required(login_url='users:login')
+@login_required(login_url='login')
 @allow_users(allow_roles=['admin'])
 def Student_List(request):
   students = Student.objects.all()
   return render(request, 'students/list.html', {'students':students})
 
-@login_required(login_url='users:login')
+@login_required(login_url='login')
 @allow_users(allow_roles=['admin'])
 def Student_Create(request):
   if request.method == 'POST':
@@ -184,7 +159,7 @@ def Student_Create(request):
   
   return render(request, 'students/create_update.html', {'student_form':student_form, 'user_form':user_form})
 
-@login_required(login_url='users:login')
+@login_required(login_url='login')
 @allow_users(allow_roles=['admin'])
 def Student_Update(request, pk):
   student = Student.objects.filter(pk=pk).first()
@@ -196,7 +171,7 @@ def Student_Update(request, pk):
 
   return render(request, 'students/create_update.html', {'student_form':student_form})
 
-@login_required(login_url='users:login')
+@login_required(login_url='login')
 @allow_users(allow_roles=['admin'])
 def Student_Delete(request, pk):
   student = Student.objects.filter(pk=pk).first()
@@ -209,7 +184,7 @@ def Student_Delete(request, pk):
   
   return render(request, 'students/delete.html', {'student':student})
 
-@login_required(login_url='users:login')
+@login_required(login_url='login')
 @allow_users(allow_roles=['admin'])
 def Student_Detail(request, pk):
   student = Student.objects.filter(pk=pk).first()

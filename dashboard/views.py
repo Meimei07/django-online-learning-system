@@ -1,14 +1,14 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 
-from users.models import Employee, Instructor, Student
+from users.models import Instructor, Student
 from users.decorators import allow_users, admin_only
 from courses.models import Course
 from enrollments.models import Enrollment
 
 # Create your views here.
 
-@login_required(login_url='users:login')
+@login_required(login_url='login')
 @admin_only
 def dashboard_view(request):
   instructors = Instructor.objects.all()
@@ -30,7 +30,7 @@ def dashboard_view(request):
 
   return render(request, 'dashboard/home.html', context)
 
-@login_required(login_url='users:login')
+@login_required(login_url='login')
 @allow_users(allow_roles=['instructor'])
 def instructor_dashboard_view(request):
   login_id = request.user.instructor.id
@@ -54,7 +54,7 @@ def instructor_dashboard_view(request):
 
   return render(request, 'dashboard/instructor_dashboard.html', context)
 
-@login_required(login_url='users:login')
+@login_required(login_url='login')
 @allow_users(allow_roles=['student'])
 def student_dashboard_view(request):
   login_id = request.user.student.id
