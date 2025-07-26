@@ -11,7 +11,7 @@ class UpdateEnrollmentForm(forms.ModelForm):
     model = Enrollment
     fields = '__all__'
 
-class EnrollmentFormInCourse(forms.ModelForm):
+class EnrollmentFormInCourse(forms.ModelForm): # by employee
   class Meta:
     model = Enrollment
     fields = ['student']

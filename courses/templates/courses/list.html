@@ -124,8 +124,7 @@
         
       </div>
 
-      <!-- by instructor -->
-      
+      <!-- by instructor --> 
       {% if request.user.groups.all.0.name != 'instructor' %}
 
         <span class="fw-semibold">Instructor:</span>
@@ -164,36 +163,47 @@
 
     <div class="card-container">  
       
-      {% for course in courses %}
-        <div class="card">
+      {% if courses.all %}
 
-          <div class="card-img">
-            {% if course.image %}
-              <img src="{{ course.image.url }}" class="card-img-top object-fit-cover" alt="{{ course.name }}">
-            {% else %}
-              <img src="/media/images/e-learning.png" class="card-img-top object-fit-cover" alt="default-image">
-            {% endif %}
-          </div>
-          
-          <div class="px-3 pb-3">
-            <h5 class="card-title limit-to-2-lines">{{course.name}}</h5>
-            <div class="mb-3 limit-to-2-lines">{{course.description}}</div>
-            <div>
-              <div class="card-instructor">{{course.instructor}}</div>
-              
-              {% for course_tag in course.tags.all  %}
-                <div class="card-instructor">{{course_tag.tag.name}}</div>
-              {% endfor %}
+        {% for course in courses %}
+          <div class="card">
+
+            <div class="card-img">
+              {% if course.image %}
+                <img src="{{ course.image.url }}" class="card-img-top object-fit-cover" alt="{{ course.name }}">
+              {% else %}
+                <img src="/media/images/e-learning.png" class="card-img-top object-fit-cover" alt="default-image">
+              {% endif %}
+            </div>
+            
+            <div class="px-3 pb-3">
+              <h5 class="card-title limit-to-2-lines">{{course.name}}</h5>
+              <div class="mb-3 limit-to-2-lines">{{course.description}}</div>
+              <div>
+                <div class="card-instructor">{{course.instructor}}</div>
                 
-            </div>
-            <div class="d-flex align-items-center mt-2">
-              <div class="flex-grow-1 fw-semibold fs-5">${{course.price}}</div>
-              <a href="{% url 'courses:course_detail' course.id %}" class="btn btn-primary">Details</a>
+                {% for course_tag in course.tags.all  %}
+                  <div class="card-instructor">{{course_tag.tag.name}}</div>
+                {% endfor %}
+                  
+              </div>
+              <div class="d-flex align-items-center mt-2">
+                <div class="flex-grow-1 fw-semibold fs-5">${{course.price}}</div>
+                <a href="{% url 'courses:course_detail' course.id %}" class="btn btn-primary">Details</a>
+              </div>
             </div>
           </div>
-        </div>
-      {% endfor %}
+        {% endfor %}
 
+      {% else %}
+        <h5 class="course-card">
+          <strong>
+            <i class="fa-solid fa-circle-exclamation"></i>
+              No courses
+          </strong>
+        </h5>
+      {% endif %}
+        
     </div>
   </div>
 

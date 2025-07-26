@@ -11,13 +11,14 @@ from users.decorators import allow_users
 # Create your views here.
 
 @login_required(login_url='users:login')
-@allow_users(allow_roles=['admin', 'student'])
+@allow_users(allow_roles=['admin'])
 def enrollment_list(request):
   enrollments = Enrollment.objects.select_related('student', 'course').all()
   students = Student.objects.all()
   courses = Course.objects.all()
   instructors = Instructor.objects.all()
 
+  # filtering
   selected_student_id = request.GET.get('student')
   if selected_student_id:
     enrollments = enrollments.filter(student_id=selected_student_id)
@@ -118,7 +119,6 @@ def enrollment_create_in_course(request, pk): # pk of course
           messages.error(request, "Enrolled already")
           return redirect('courses:course_detail', pk=course.id)
 
-        print('student enrolls')
         enrollment = form.save(commit=False)
         enrollment.course = course
         enrollment.student = student

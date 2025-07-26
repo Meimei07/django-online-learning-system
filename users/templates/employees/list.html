@@ -41,11 +41,13 @@
                 class="btn btn-outline-primary btn-sm"
                 >Update</a
               >
-              <a
-                href="{% url 'users:employee_delete' employee.id %}"
-                class="btn btn-outline-danger btn-sm"
-                >Delete</a
-              >
+              {% if request.user.employee.id != employee.id %}
+                <a
+                  href="{% url 'users:employee_delete' employee.id %}"
+                  class="btn btn-outline-danger btn-sm"
+                  >Delete</a
+                >
+              {% endif %}
             </td>
           </tr>
           {% endfor %}

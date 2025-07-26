@@ -11,9 +11,15 @@
 
     <!-- top -->
     <div class="top-section">
-      <p>Hello, {{request.user}}!</p>
-      <p>Check out what's new and improve in your dashboard!</p>
-      <a href="{% url 'courses:course_list' %}">Go to courses</a>
+      <div class="top-section__info">
+        <p>Hello, {{request.user}}!</p>
+        <p>Check out what's new and improve in your dashboard!</p>
+        <a href="{% url 'courses:course_list' %}">Go to courses</a>
+      </div>
+
+      <div class="top-section__img-container">
+        <img src="/media/profiles/dashboard-image.png" alt="dashboard-img">
+      </div>
     </div>
 
     <!-- middle -->
@@ -21,25 +27,37 @@
       <h5>My Courses</h5>
       
       <div class="course-card-container">
-        {% for course in courses %}
+        
+        {% if courses.all %}
 
-          <div class="course-card">
-            <i class="fa-regular fa-newspaper"></i>
-            <div class="limit-to-2-lines">{{course.name}}</div>
-            <div>
+          {% for course in courses %}
+            <div class="course-card">
+              <i class="fa-regular fa-newspaper"></i>
+              <div class="limit-to-2-lines">{{course.name}}</div>
               <div>
-                <i class="fa-solid fa-book-open"></i>
-                <span>{{course.lessons.count}}</span>
-              </div>
+                <div>
+                  <i class="fa-solid fa-book-open"></i>
+                  <span>{{course.lessons.count}}</span>
+                </div>
 
-              <div>
-                <i class="fa-solid fa-user-group"></i>
-                <span>{{course.enrollments.count}}</span>
+                <div>
+                  <i class="fa-solid fa-user-group"></i>
+                  <span>{{course.enrollments.count}}</span>
+                </div>
               </div>
             </div>
-          </div>
+          {% endfor %}
 
-        {% endfor %}
+        {% else %}
+          <h5 class="course-card">
+            <strong>
+              <i class="fa-solid fa-circle-exclamation"></i>
+               No courses
+            </strong>
+          </h5>
+        {% endif %}
+          
+        
       </div>
     </div>
 

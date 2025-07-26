@@ -11,13 +11,13 @@ from enrollments.models import Enrollment
 @login_required(login_url='users:login')
 @admin_only
 def dashboard_view(request):
-  total_instructors = Instructor.objects.count()
-  total_students = Student.objects.count()
-  total_courses = Course.objects.count()
-  total_enrollments = Enrollment.objects.count()
-
   instructors = Instructor.objects.all()
   students = Student.objects.all()
+  
+  total_instructors = instructors.count()
+  total_students = students.count()
+  total_courses = Course.objects.count()
+  total_enrollments = Enrollment.objects.count()
 
   context = {
     'instructors': instructors,
@@ -46,9 +46,7 @@ def instructor_dashboard_view(request):
 
     for enrollment in enrollments:
       total_enrollments.append(enrollment)
-  
-  print("enroll: ", total_enrollments)
-  
+
   context = {
     'courses': courses,
     'enrollments': total_enrollments,

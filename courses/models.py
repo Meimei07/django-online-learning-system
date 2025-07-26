@@ -24,6 +24,7 @@ class Course(models.Model):
   published_date = models.DateField(auto_now_add=True)
 
   def save(self, *args, **kwargs):
+    # delete old img from folder, if new one is added when update
     try:
       old = Course.objects.get(pk=self.pk)
       
@@ -37,6 +38,7 @@ class Course(models.Model):
 
   def delete(self, *args, **kwargs):
     if self.image:
+      # delete img from folder, when delete obj
       self.image.delete(save=False)
 
     super().delete(*args, **kwargs)

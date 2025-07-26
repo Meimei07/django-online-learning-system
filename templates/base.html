@@ -110,6 +110,18 @@
               </a>
               
             {% endif %}
+
+            <!-- logout -->
+            <a
+              href="{% url 'users:logout' %}"
+              class="list-group-item list-group-item-action py-2 ripple"
+            >
+              <i class="fa-solid fa-arrow-right-from-bracket me-3"></i></i></i><span>Logout</span>
+            </a>
+          </div>
+
+          <div>
+            
           </div>
         </div>
       </nav>
@@ -135,8 +147,9 @@
           <!-- Brand -->
           <a class="navbar-brand" href="#">
             <img
-              src="https://mdbcdn.b-cdn.net/img/logo/mdb-transaprent-noshadows.webp"
-              height="25"
+              src="/media/profiles/my-learning-logo.png"
+              height="35"
+              width="200"
               alt="MDB Logo"
               loading="lazy"
             />
@@ -145,14 +158,37 @@
           <!-- Right links -->
           <ul class="navbar-nav ms-auto d-flex flex-row align-items-center gap-3">
             <!-- Notification dropdown -->
-            <li class="nav-item fs-5">
-              Hello, {{request.user}}!
+            <li class="nav-item fs-5 d-flex align-items-center gap-3">
+              <span>Hello, {{request.user}}!</span>
+
+              <!-- profile image -->
+              <div>              
+                {% with request.user.groups.all.0.name as group %}
+
+                  {% if group == "admin" %}
+                      <img src="/media/profiles/employee-profile.webp" alt="profile" style="height: 40px; border-radius: 50%;" />
+                  {% elif group == "instructor" %}
+                      <img src="/media/profiles/instructor-profile.jpg" alt="profile" style="height: 40px; border-radius: 50%;" />
+                  {% elif group == "student" %}
+
+                    {% if request.user.student.gender == "Female" %}
+                      {% with "female-student-profile.jpg" as profile_image %}
+                        <img src="/media/profiles/{{ profile_image }}" alt="profile" style="height: 40px; border-radius: 50%;" />
+                      {% endwith %}
+                    {% elif request.user.student.gender == "Male" %}
+                      {% with "male-student-profile.jpg" as profile_image %}
+                        <img src="/media/profiles/{{ profile_image }}" alt="profile" style="height: 40px; border-radius: 50%;" />
+                      {% endwith %}
+                    {% endif %}
+
+                  {% endif %}
+                  
+                {% endwith %}
+
+
+              </div>
             </li>
             
-            <li class="nav-item">
-              <a href="{% url 'users:logout' %}"><i class="bi bi-box-arrow-right fs-4 text-secondary me-3" style="cursor: pointer;"></i></a>
-            </li>
-
             {% comment %} <li class="nav-item dropdown">
               <a
                 data-mdb-dropdown-init

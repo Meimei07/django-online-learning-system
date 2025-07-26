@@ -61,7 +61,7 @@ def Course_List(request):
 
   if login_user == 'instructor':
     # filter to get that instructor's courses only
-    instructor = get_object_or_404(Instructor, name=request.user)
+    instructor = get_object_or_404(Instructor, id=request.user.instructor.id)
     courses = instructor.courses.all() 
   else:
     courses = Course.objects.all()
@@ -70,6 +70,7 @@ def Course_List(request):
   tags = Tag.objects.all()
   instructors = Instructor.objects.all()
 
+  # filtering
   selected_category_id = request.GET.get('category')
   if selected_category_id:
     courses = courses.filter(category_id=selected_category_id)
@@ -192,7 +193,8 @@ def Course_Detail(request, pk):
   total_lessons = course.lessons.count()
 
   # add tag to course
-  if request.method == 'POST' and 'add-tag' in request.POST:
+  # 'add-tag' name of submit button
+  if request.method == 'POST' and 'add-tag' in request.POST: 
     form = CourseTagForm(request.POST or None)
     
     if form.is_valid():

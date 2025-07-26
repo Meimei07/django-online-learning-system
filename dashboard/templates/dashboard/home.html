@@ -11,9 +11,15 @@
 
     <!-- top -->
     <div class="top-section">
-      <p>Hello, {{request.user}}!</p>
-      <p>Check out what's new and improve in your dashboard!</p>
-      <a href="{% url 'enrollments:enrollment_list' %}">Go to enrollments</a>
+      <div class="top-section__info">
+        <p>Hello, {{request.user}}!</p>
+        <p>Check out what's new and improve in your dashboard!</p>
+        <a href="{% url 'enrollments:enrollment_list' %}">Go to enrollments</a>
+      </div>
+      
+      <div class="top-section__img-container">
+        <img src="/media/profiles/dashboard-image.png" alt="dashboard-img">
+      </div>
     </div>
 
     <!-- middle -->

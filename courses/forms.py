@@ -11,7 +11,7 @@ class TagForm(forms.ModelForm):
     model = Tag
     fields = '__all__'
 
-class CourseForm(forms.ModelForm):
+class CourseForm(forms.ModelForm): # by employee
   class Meta:
     model = Course
     fields = '__all__'
