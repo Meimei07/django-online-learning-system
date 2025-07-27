@@ -241,7 +241,7 @@
                   <i class="bi bi-filetype-doc"></i>
                   
                   {% if lesson.resource_file  %}
-                    <a href="{{lesson.resource_file.url}}">
+                    <a href="{{lesson.resource_file.url}}" class="limit-to-1-line">
                       {{ lesson.resource_file.name|slice:"6:" }}
                     </a>
                   {% else %}
@@ -254,7 +254,7 @@
                   <i class="bi bi-play-circle"></i>
                   
                   {% if lesson.video_url %}
-                    <a href="{{lesson.video_url}}">{{lesson.name}}</a>                 
+                    <a href="{{lesson.video_url}}" class="limit-to-1-line">{{lesson.name}}</a>                 
                   {% else %}
                     <span>No video</span>
                   {% endif %}

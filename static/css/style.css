@@ -9,6 +9,20 @@ body {
   }
 }
 
+.limit-to-2-lines {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.limit-to-1-line {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
 /* Sidebar */
 .sidebar {
   position: fixed;
@@ -70,13 +84,6 @@ form label {
 }
 
 /* Style cards */
-.limit-to-2-lines {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
 .card-container {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -115,7 +122,13 @@ form label {
     padding: 10px 0;
   }
 
-  .card-instructor {
+  .card-description {
+    height: 50px;
+    margin-bottom: 0.5rem;
+  }
+
+  .card-instructor,
+  .card-tag {
     display: inline;
     background-color: #f3f3f3;
     color: gray;
@@ -244,13 +257,6 @@ form label {
   display: flex;
   gap: 8px;
   padding-bottom: 5px;
-
-  a {
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
 }
 
 .btn-update {

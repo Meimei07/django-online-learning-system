@@ -178,12 +178,12 @@
             
             <div class="px-3 pb-3">
               <h5 class="card-title limit-to-2-lines">{{course.name}}</h5>
-              <div class="mb-3 limit-to-2-lines">{{course.description}}</div>
-              <div>
+              <div class="card-description limit-to-2-lines">{{course.description}}</div>
+              <div class="limit-to-1-line">
                 <div class="card-instructor">{{course.instructor}}</div>
                 
                 {% for course_tag in course.tags.all  %}
-                  <div class="card-instructor">{{course_tag.tag.name}}</div>
+                  <div class="card-tag">{{course_tag.tag.name}}</div>
                 {% endfor %}
                   
               </div>
