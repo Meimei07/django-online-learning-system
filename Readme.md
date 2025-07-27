@@ -62,7 +62,7 @@ A Django-based web application for managing online learning content with full ro
   pip install pipenv
 ```
 
-4. Navitgate to project folder and install dependencies (Django & Pillow) using pipenv
+4. Navigate to project folder and install dependencies (Django & Pillow) using pipenv
 
 ```
   pipenv install
@@ -70,7 +70,7 @@ A Django-based web application for managing online learning content with full ro
 
 ## 📖 Usage
 
-1. Navitgate to project folder and activate the environment
+1. Navigate to project folder and activate the environment
 
 ```
   pipenv shell
