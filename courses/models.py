@@ -49,7 +49,7 @@ class Course(models.Model):
 class Lesson(models.Model):
   order = models.IntegerField()
   name = models.CharField(max_length=150)
-  course = models.ForeignKey(Course, on_delete=models.SET_NULL, null=True, related_name='lessons')
+  course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='lessons')
   video_url = models.URLField(blank=True, null=True)
   duration = models.DurationField()
   resource_file = models.FileField(upload_to='files', blank=True, null=True)
@@ -61,9 +61,9 @@ class Lesson(models.Model):
     return self.name
 
 class CourseTag(models.Model):
-  course = models.ForeignKey(Course, on_delete=models.SET_NULL, null=True, related_name='tags')
-  tag = models.ForeignKey(Tag, on_delete=models.SET_NULL, null=True, related_name='courses')
+  course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='tags')
+  tag = models.ForeignKey(Tag, on_delete=models.CASCADE, related_name='courses')
 
   def __str__(self):
-    return f"${self.course.name} - ${self.tag.name}"
+    return f"{self.course.name} - {self.tag.name}"
   
